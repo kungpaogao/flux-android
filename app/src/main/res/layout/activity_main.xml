@@ -7,8 +7,8 @@
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/facility_list_fragment"
-        android:name="org.cornelldti.flux.facilitylist.FacilityListFragment"
+        android:id="@+id/dining_list_fragment"
+        android:name="org.cornelldti.flux.dininglist.DiningListFragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
