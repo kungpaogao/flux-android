@@ -16,7 +16,7 @@ class DiningListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.item_dining_list, parent, false)
+        val view = layoutInflater.inflate(R.layout.dining_list_item, parent, false)
         return ViewHolder(view)
     }
 

@@ -7,10 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import org.cornelldti.flux.R
 import org.cornelldti.flux.data.Facility
+import org.cornelldti.flux.databinding.DiningListFragmentBinding
 
 /**
  * A simple [Fragment] subclass.
@@ -19,6 +20,7 @@ import org.cornelldti.flux.data.Facility
  */
 class DiningListFragment : Fragment(), DiningListAdapter.FacilityListener {
 
+    private lateinit var binding: DiningListFragmentBinding
     private lateinit var viewModel: DiningListViewModel
 
     override fun onCreateView(
@@ -30,17 +32,17 @@ class DiningListFragment : Fragment(), DiningListAdapter.FacilityListener {
         viewModel = ViewModelProvider(this).get(DiningListViewModel::class.java)
 
         // Inflate the layout for this fragment
-        val rootView = inflater.inflate(R.layout.fragment_dining_list, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.dining_list_fragment, container, false)
 
         val data = viewModel.data
 
-        val recyclerView = rootView.findViewById<RecyclerView>(R.id.dining_list)
+        val recyclerView = binding.diningList
         recyclerView.adapter = DiningListAdapter(data, this)
 
-        return rootView
+        return binding.root
     }
 
     override fun onClick(facility: Facility) {
-        Toast.makeText(context, "Clicked: ${facility.id}", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "Clicked: ${facility.id}", Toast.LENGTH_SHORT).show()
     }
 }
