@@ -3,13 +3,24 @@ package org.cornelldti.flux.dininglist
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import org.cornelldti.flux.data.Facility
+import org.cornelldti.flux.network.AuthenticationState
+import org.cornelldti.flux.network.FirebaseLiveData
 
 class DiningListViewModel: ViewModel() {
     private val _data = MutableLiveData<List<Facility>>()
     val data: LiveData<List<Facility>>
         get() = _data
+
+    val authState = Transformations.map(FirebaseLiveData()) { user ->
+        if (user != null) {
+            AuthenticationState.AUTHENTICATED
+        } else {
+            AuthenticationState.UNAUTHENTICATED
+        }
+    }
 
     init {
         Log.i("DiningListViewModel", "DiningListViewModel created!")
