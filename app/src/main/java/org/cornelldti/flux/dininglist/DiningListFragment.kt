@@ -35,10 +35,14 @@ class DiningListFragment : Fragment(), DiningListAdapter.FacilityListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.dining_list_fragment, container, false)
 
-        val data = viewModel.data
+        val adapter = DiningListAdapter(itemListener = this)
+        binding.diningList.adapter = adapter
 
-        val recyclerView = binding.diningList
-        recyclerView.adapter = DiningListAdapter(data, this)
+        viewModel.data.observe(
+            viewLifecycleOwner,
+            {
+                adapter.data = it
+            })
 
         return binding.root
     }

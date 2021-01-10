@@ -9,10 +9,15 @@ import org.cornelldti.flux.R
 import org.cornelldti.flux.data.Facility
 
 class DiningListAdapter(
-    private var data: List<Facility>,
     private val itemListener: FacilityListener
 ) :
     RecyclerView.Adapter<DiningListAdapter.ViewHolder>() {
+
+    var data = listOf<Facility>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
