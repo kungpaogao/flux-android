@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.cornelldti.flux.R
 import org.cornelldti.flux.data.Facility
+import org.cornelldti.flux.databinding.DiningListItemBinding
 
 class DiningListAdapter(
     private val itemListener: FacilityListener
@@ -20,28 +21,42 @@ class DiningListAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.dining_list_item, parent, false)
-        return ViewHolder(view)
+        return ViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        holder.facilityId.text = item.id
-        holder.facilityName.text = item.name
-        holder.itemView.setOnClickListener {
-            itemListener.onClick(item)
-        }
+        holder.bind(item, itemListener)
     }
 
     override fun getItemCount() = data.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val facilityId: TextView = itemView.findViewById(R.id.facility_id)
-        val facilityName: TextView = itemView.findViewById(R.id.facility_name)
+    class ViewHolder private constructor(private val binding: DiningListItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(
+            item: Facility,
+            itemListener: FacilityListener,
+        ) {
+            binding.facilityId.text = item.id
+            binding.facilityName.text = item.name
+            itemView.setOnClickListener {
+                itemListener.onClick(item)
+            }
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): ViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = DiningListItemBinding.inflate(layoutInflater, parent, false)
+                return ViewHolder(binding)
+            }
+        }
     }
 
     interface FacilityListener {
         fun onClick(facility: Facility)
     }
+
+
 }
