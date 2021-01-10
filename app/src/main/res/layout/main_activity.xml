@@ -7,11 +7,11 @@
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/dining_list_fragment"
-        android:name="org.cornelldti.flux.dininglist.DiningListFragment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:navGraph="@navigation/navigation"
+        app:defaultNavHost="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

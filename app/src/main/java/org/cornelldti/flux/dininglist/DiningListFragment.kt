@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import org.cornelldti.flux.R
 import org.cornelldti.flux.data.Facility
 import org.cornelldti.flux.databinding.DiningListFragmentBinding
@@ -44,5 +45,8 @@ class DiningListFragment : Fragment(), DiningListAdapter.FacilityListener {
 
     override fun onClick(facility: Facility) {
         Toast.makeText(context, "Clicked: ${facility.id}", Toast.LENGTH_SHORT).show()
+        val action =
+            DiningListFragmentDirections.actionDiningListFragmentToDiningDetailFragment(facility.id)
+        this.findNavController().navigate(action)
     }
 }

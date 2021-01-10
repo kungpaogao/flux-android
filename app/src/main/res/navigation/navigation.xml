@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/diningListFragment">
 
+    <fragment
+        android:id="@+id/diningListFragment"
+        android:name="org.cornelldti.flux.dininglist.DiningListFragment"
+        android:label="DiningListFragment">
+        <action
+            android:id="@+id/action_diningListFragment_to_diningDetailFragment"
+            app:destination="@id/diningDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/diningDetailFragment"
+        android:name="org.cornelldti.flux.diningdetail.DiningDetailFragment"
+        android:label="dining_detail_fragment"
+        tools:layout="@layout/dining_detail_fragment">
+        <argument
+            android:name="facilityId"
+            app:argType="string" />
+    </fragment>
 </navigation>

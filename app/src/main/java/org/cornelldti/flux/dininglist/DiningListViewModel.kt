@@ -32,7 +32,7 @@ class DiningListViewModel: ViewModel() {
     }
 
     fun fetchDiningList() {
-        TODO()
+        TODO("fetch dining list from API")
     }
 
 
