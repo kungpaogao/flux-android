@@ -19,7 +19,7 @@ import org.cornelldti.flux.databinding.DiningListFragmentBinding
  * Use the [DiningListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DiningListFragment : Fragment(), DiningListAdapter.FacilityListener {
+class DiningListFragment : Fragment() {
 
     private lateinit var binding: DiningListFragmentBinding
     private lateinit var viewModel: DiningListViewModel
@@ -35,7 +35,10 @@ class DiningListFragment : Fragment(), DiningListAdapter.FacilityListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.dining_list_fragment, container, false)
 
-        val adapter = DiningListAdapter(itemListener = this)
+        val adapter = DiningListAdapter(FacilityListener { facilityId ->
+            onClick(facilityId)
+        })
+
         binding.diningList.adapter = adapter
 
         viewModel.data.observe(
@@ -47,10 +50,12 @@ class DiningListFragment : Fragment(), DiningListAdapter.FacilityListener {
         return binding.root
     }
 
-    override fun onClick(facility: Facility) {
-        Toast.makeText(context, "Clicked: ${facility.id}", Toast.LENGTH_SHORT).show()
+    private fun onClick(facilityId: String) {
+        Toast.makeText(context, "Clicked: $facilityId", Toast.LENGTH_SHORT).show()
         val action =
-            DiningListFragmentDirections.actionDiningListFragmentToDiningDetailFragment(facility.id)
+            DiningListFragmentDirections.actionDiningListFragmentToDiningDetailFragment(
+                facilityId
+            )
         this.findNavController().navigate(action)
     }
 }
