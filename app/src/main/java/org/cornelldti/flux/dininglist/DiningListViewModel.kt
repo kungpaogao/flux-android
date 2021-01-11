@@ -14,7 +14,7 @@ class DiningListViewModel: ViewModel() {
     val data: LiveData<List<Facility>>
         get() = _data
 
-    val authState = Transformations.map(FirebaseTokenLiveData()) { token ->
+    val authState = Transformations.map(FirebaseTokenLiveData) { token ->
         if (token != null) {
             AuthTokenState.ACQUIRED
         } else {

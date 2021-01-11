@@ -3,11 +3,12 @@ package org.cornelldti.flux
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -22,16 +23,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun signInAnonymously() {
         Log.i("MainActivity", "signInAnon:start")
-        auth.signInAnonymously().addOnCompleteListener(this) { task ->
-            if (task.isSuccessful) {
-                Log.i("MainActivity", "signInAnon:success")
-            } else {
-                Log.w("MainActivity", "signInAnonymously:failure", task.exception)
-                Toast.makeText(
-                    baseContext, "Authentication failed.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        this.lifecycleScope.launch {
+            auth.signInAnonymously().await()
         }
     }
 

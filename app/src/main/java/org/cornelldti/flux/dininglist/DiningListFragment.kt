@@ -70,6 +70,7 @@ class DiningListFragment : Fragment() {
                 AuthTokenState.ACQUIRED -> {
                     Log.i("DiningListFragment", "Authentication success")
                     viewModel.fetchDiningList()
+                    // TODO: fix fetching multiple times
                 }
                 else -> {
                     Log.w("DiningListFragment", "Authentication failure")

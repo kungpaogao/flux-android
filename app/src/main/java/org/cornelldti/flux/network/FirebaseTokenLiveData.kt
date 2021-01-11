@@ -2,28 +2,19 @@ package org.cornelldti.flux.network
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.liveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.tasks.await
 
-class FirebaseTokenLiveData : LiveData<String?>(null) {
-    private val auth = FirebaseAuth.getInstance()
+class FirebaseLiveData : LiveData<FirebaseUser?>() {
+    private val auth = Firebase.auth
 
     private val idTokenListener =
-        FirebaseAuth.IdTokenListener { firebaseAuth ->
-            val user = firebaseAuth.currentUser
-            if (user != null) {
-                getUserIdToken(user)
-            }
-        }
-
-    private fun getUserIdToken(user: FirebaseUser) {
-        Log.i("FirebaseTokenLiveData", "Get token")
-        user.getIdToken(true).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                value = task.result?.token
-            }
-        }
-    }
+        FirebaseAuth.IdTokenListener { firebaseAuth -> value = firebaseAuth.currentUser }
 
     // When this object has an active observer, start observing the FirebaseAuth state to see if
     // there is currently a logged in user.
@@ -37,6 +28,15 @@ class FirebaseTokenLiveData : LiveData<String?>(null) {
         auth.removeIdTokenListener(idTokenListener)
     }
 }
+
+// Map user to token LiveData
+val FirebaseTokenLiveData: LiveData<String?> =
+    Transformations.switchMap(FirebaseLiveData()) { user ->
+        liveData {
+            val data = user?.getIdToken(true)?.await()?.token
+            emit(data)
+        }
+    }
 
 enum class AuthTokenState {
     ACQUIRED, UNACQUIRED
