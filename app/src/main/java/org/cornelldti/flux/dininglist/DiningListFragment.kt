@@ -11,8 +11,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import org.cornelldti.flux.R
-import org.cornelldti.flux.data.Facility
 import org.cornelldti.flux.databinding.DiningListFragmentBinding
+import org.cornelldti.flux.network.AuthTokenState
 
 /**
  * A simple [Fragment] subclass.
@@ -36,7 +36,7 @@ class DiningListFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.dining_list_fragment, container, false)
 
         val adapter = DiningListAdapter(FacilityListener { facilityId ->
-            onClick(facilityId)
+            onFacilityClick(facilityId)
         })
 
         binding.diningList.adapter = adapter
@@ -50,12 +50,31 @@ class DiningListFragment : Fragment() {
         return binding.root
     }
 
-    private fun onClick(facilityId: String) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeAuthState()
+    }
+
+    private fun onFacilityClick(facilityId: String) {
         Toast.makeText(context, "Clicked: $facilityId", Toast.LENGTH_SHORT).show()
         val action =
             DiningListFragmentDirections.actionDiningListFragmentToDiningDetailFragment(
                 facilityId
             )
         this.findNavController().navigate(action)
+    }
+
+    private fun observeAuthState() {
+        viewModel.authState.observe(viewLifecycleOwner, { authState ->
+            when (authState) {
+                AuthTokenState.ACQUIRED -> {
+                    Log.i("DiningListFragment", "Authentication success")
+                    viewModel.fetchDiningList()
+                }
+                else -> {
+                    Log.w("DiningListFragment", "Authentication failure")
+                }
+            }
+        })
     }
 }

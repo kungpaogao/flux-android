@@ -6,19 +6,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import org.cornelldti.flux.data.Facility
-import org.cornelldti.flux.network.AuthenticationState
-import org.cornelldti.flux.network.FirebaseLiveData
+import org.cornelldti.flux.network.AuthTokenState
+import org.cornelldti.flux.network.FirebaseTokenLiveData
 
 class DiningListViewModel: ViewModel() {
     private val _data = MutableLiveData<List<Facility>>()
     val data: LiveData<List<Facility>>
         get() = _data
 
-    val authState = Transformations.map(FirebaseLiveData()) { user ->
-        if (user != null) {
-            AuthenticationState.AUTHENTICATED
+    val authState = Transformations.map(FirebaseTokenLiveData()) { token ->
+        if (token != null) {
+            AuthTokenState.ACQUIRED
         } else {
-            AuthenticationState.UNAUTHENTICATED
+            AuthTokenState.UNACQUIRED
         }
     }
 
@@ -48,7 +48,8 @@ class DiningListViewModel: ViewModel() {
     }
 
     fun fetchDiningList() {
-        TODO("fetch dining list from API")
+        Log.i("DiningListViewModel", "Fetching dining list")
+//        TODO("fetch dining list from API")
     }
 
 

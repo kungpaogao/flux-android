@@ -17,23 +17,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         auth = Firebase.auth
-    }
-
-    override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-//        val currentUser = auth.currentUser
-//        updateUI(currentUser)
         signInAnonymously()
     }
 
     private fun signInAnonymously() {
+        Log.i("MainActivity", "signInAnon:start")
         auth.signInAnonymously().addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                Log.d("MainActivity", "signInAnon:success")
-                val user = auth.currentUser
-                requestToken(user)
-                // updateUI
+                Log.i("MainActivity", "signInAnon:success")
             } else {
                 Log.w("MainActivity", "signInAnonymously:failure", task.exception)
                 Toast.makeText(
@@ -44,13 +35,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun requestToken(user: FirebaseUser?) {
-        user!!.getIdToken(true).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-//                FacilityDatabase.setToken(it.result!!.token!!)
-//                _tokenAcquired.value = true
-                Log.i("MainActivity", "Token acquired: ${task.result?.token}")
-            }
-        }
-    }
 }
