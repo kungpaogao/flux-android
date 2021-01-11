@@ -65,8 +65,8 @@ class DiningListFragment : Fragment() {
     }
 
     private fun observeAuthState() {
-        viewModel.authState.observe(viewLifecycleOwner, { authState ->
-            when (authState) {
+        viewModel.tokenAcquired.observe(viewLifecycleOwner, { token ->
+            when (token) {
                 AuthTokenState.ACQUIRED -> {
                     Log.i("DiningListFragment", "Authentication success")
                     viewModel.fetchDiningList()
