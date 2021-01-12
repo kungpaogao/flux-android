@@ -1,6 +1,9 @@
 package org.cornelldti.flux.data
 
-data class Facility(val id: String, val name: String) {
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Facility(val id: String, val displayName: String) {
 
     /* TODO: think about placing this in the constructor to take advantage of data classes
         - would allow for the generated functions (useful for diffs)
