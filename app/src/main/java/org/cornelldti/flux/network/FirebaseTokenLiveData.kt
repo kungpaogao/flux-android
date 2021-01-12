@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
+import java.lang.Exception
 
 class FirebaseLiveData : LiveData<FirebaseUser?>() {
     private val auth = Firebase.auth
@@ -33,8 +34,12 @@ class FirebaseLiveData : LiveData<FirebaseUser?>() {
 val FirebaseTokenLiveData: LiveData<String?> =
     Transformations.switchMap(FirebaseLiveData()) { user ->
         liveData {
-            val data = user?.getIdToken(true)?.await()?.token
-            emit(data)
+            try {
+                val data = user?.getIdToken(true)?.await()?.token
+                emit(data)
+            } catch (e: Exception) {
+                Log.w("FirebaseTokenLiveData", "Failed to get token")
+            }
         }
     }
 
