@@ -5,14 +5,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.data.Facility
+import org.cornelldti.flux.network.Api
 import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.network.FirebaseTokenLiveData
+import retrofit2.Call
+import retrofit2.Response
 
 class DiningListViewModel: ViewModel() {
     private val _data = MutableLiveData<List<Facility>>()
     val data: LiveData<List<Facility>>
         get() = _data
+
+    private val _response = MutableLiveData<String>()
+    val response: LiveData<String>
+        get() = _response
 
     val tokenAcquired = Transformations.map(FirebaseTokenLiveData) { token ->
         if (token != null) {
@@ -47,9 +55,24 @@ class DiningListViewModel: ViewModel() {
         Log.i("DiningListViewModel", "DiningListViewModel destroyed!")
     }
 
-    fun fetchDiningList() {
+    @ExperimentalSerializationApi
+    fun getDiningList() {
         Log.i("DiningListViewModel", "Fetching dining list")
-//        TODO("fetch dining list from API")
+        Api.retrofitService.getFacilityList().enqueue(
+            object : retrofit2.Callback<List<Facility>> {
+                override fun onResponse(
+                    call: Call<List<Facility>>,
+                    response: Response<List<Facility>>
+                ) {
+                    _response.value = response.body().toString()
+                }
+
+                override fun onFailure(call: Call<List<Facility>>, t: Throwable) {
+                    _response.value = "Failure: ${t.message}"
+                }
+
+            }
+        )
     }
 
 

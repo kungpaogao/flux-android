@@ -1,11 +1,8 @@
 package org.cornelldti.flux.dininglist
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import org.cornelldti.flux.R
 import org.cornelldti.flux.data.Facility
 import org.cornelldti.flux.databinding.DiningListItemBinding
 
@@ -39,7 +36,7 @@ class DiningListAdapter(
             itemListener: FacilityListener,
         ) {
             binding.facilityId.text = item.id
-            binding.facilityName.text = item.name
+            binding.facilityName.text = item.displayName
             itemView.setOnClickListener {
                 itemListener.onClick(item)
             }

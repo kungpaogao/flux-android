@@ -53,6 +53,8 @@ class DiningListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeAuthState()
+
+        viewModel.response.observe(viewLifecycleOwner, { binding.responseText.text = it })
     }
 
     private fun onFacilityClick(facilityId: String) {
@@ -69,7 +71,7 @@ class DiningListFragment : Fragment() {
             when (token) {
                 AuthTokenState.ACQUIRED -> {
                     Log.i("DiningListFragment", "Authentication success")
-                    viewModel.fetchDiningList()
+                    viewModel.getDiningList()
                     // TODO: fix fetching multiple times
                 }
                 else -> {
