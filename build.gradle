@@ -3,6 +3,8 @@ buildscript {
     ext {
         kotlin_version = "1.4.21"
         nav_version = "2.3.2"
+        retrofit_version = "2.9.0"
+        lifecycle_version = "2.2.0"
     }
     repositories {
         google()
@@ -13,6 +15,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         classpath 'com.google.gms:google-services:4.3.4'  // Google Services plugin
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version" // serialization
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
