@@ -26,4 +26,7 @@
     <string name="item_second_pill">Second pill</string>
     <string name="item_third_pill">Third pill</string>
     <string name="item_fourth_pill">Fourth pill</string>
+
+    <string name="search">Search</string>
+    <string name="places">Places</string>
 </resources>

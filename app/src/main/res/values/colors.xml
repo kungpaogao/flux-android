@@ -13,4 +13,5 @@
     <color name="flux_grey_light">#EFEFEF</color>
     <color name="flux_grey_medium">#989A9D</color>
     <color name="flux_grey_dark">#555555</color>
+    <color name="flux_grey_dark_extra">#4A4A4A</color>
 </resources>
