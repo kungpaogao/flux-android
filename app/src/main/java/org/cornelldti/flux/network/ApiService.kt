@@ -25,8 +25,10 @@ interface ApiService {
     suspend fun getFacilityList(): List<Facility>
 
     @GET(FACILITY_INFO)
-    suspend fun getFacilityInfo(@Query("id") id: String): List<FacilityInfo>
+    suspend fun getFacilityInfo(@Query("id") id: String?): List<FacilityInfo>
 
+    @GET(HOW_DENSE)
+    suspend fun getHowDense(@Query("id") id: String?): List<HowDense>
 }
 
 object Api {

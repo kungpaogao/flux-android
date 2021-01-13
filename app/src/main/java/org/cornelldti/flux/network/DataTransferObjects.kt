@@ -32,6 +32,12 @@ data class FacilityInfo(
 )
 
 @Serializable
+data class HowDense(
+    val id: String,
+    val density: Int
+)
+
+@Serializable
 data class FacilityHour(
     val dailyHours: DailyHours,
     val date: String,

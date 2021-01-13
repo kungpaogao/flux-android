@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.data.Facility
+import org.cornelldti.flux.data.toCampusLocation
 import org.cornelldti.flux.network.Api
 import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.network.FirebaseTokenLiveData
@@ -41,9 +42,30 @@ class DiningListViewModel: ViewModel() {
         Log.i("DiningListViewModel", "Fetching dining list")
         viewModelScope.launch {
             try {
-                val listResult = Api.retrofitService.getFacilityList()
-                _data.value = listResult
-                _response.value = listResult.toString()
+//              // make requests
+                val facilityList = Api.retrofitService.getFacilityList()
+                val facilityInfoList = Api.retrofitService.getFacilityInfo(null)
+                val howDenseList = Api.retrofitService.getHowDense(null)
+
+                val facilityListMap = facilityList.associateBy { facility -> facility.id }
+
+                howDenseList.map { howDense ->
+                    val facility = facilityListMap[howDense.id]
+                    if (facility != null) {
+                        facility.density = howDense.density
+                    }
+                }
+
+                facilityInfoList.map { facilityInfo ->
+                    val facility = facilityListMap[facilityInfo.id]
+                    facility?.let {
+                        it.isOpen = facilityInfo.isOpen
+                        it.campusLocation = facilityInfo.campusLocation.toCampusLocation()
+                    }
+                }
+
+                _data.value = facilityList
+                _response.value = facilityList.toString()
             } catch (e: Exception) {
                 _response.value = "Failure: ${e.message}"
             }
