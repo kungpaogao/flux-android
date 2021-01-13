@@ -1,7 +1,6 @@
 package org.cornelldti.flux.dininglist
 
 import android.graphics.PorterDuff
-import android.provider.Settings.Global.getString
 import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -58,16 +57,15 @@ class DiningListAdapter(
         private fun setPills(item: Facility) {
             val pills =
                 listOf(binding.firstPill, binding.secondPill, binding.thirdPill, binding.fourthPill)
-            if (!item.isOpen) {
-                pills.map { pill ->
-                    pill.setColorFilter(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.flux_grey_light
-                        ), PorterDuff.Mode.MULTIPLY
-                    )
-                }
-            } else {
+            pills.map { pill ->
+                pill.setColorFilter(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.flux_grey_light
+                    ), PorterDuff.Mode.MULTIPLY
+                )
+            }
+            if (item.isOpen) {
                 val color = when (item.density) {
                     0 -> R.color.flux_green
                     1 -> R.color.flux_yellow
@@ -87,6 +85,8 @@ class DiningListAdapter(
         }
 
         companion object {
+            const val TAG = "DiningListAdapter.ViewHolder"
+
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = DiningListItemBinding.inflate(layoutInflater, parent, false)

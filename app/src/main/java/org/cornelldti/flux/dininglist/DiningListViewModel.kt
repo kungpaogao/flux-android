@@ -29,17 +29,17 @@ class DiningListViewModel: ViewModel() {
     }
 
     init {
-        Log.i("DiningListViewModel", "DiningListViewModel created!")
+        Log.i(TAG, "DiningListViewModel created!")
     }
 
     override fun onCleared() {
         super.onCleared()
-        Log.i("DiningListViewModel", "DiningListViewModel destroyed!")
+        Log.i(TAG, "DiningListViewModel destroyed!")
     }
 
     @ExperimentalSerializationApi
     fun getDiningList() {
-        Log.i("DiningListViewModel", "Fetching dining list")
+        Log.i(TAG, "Fetching dining list")
         viewModelScope.launch {
             try {
                 // make requests
@@ -72,5 +72,7 @@ class DiningListViewModel: ViewModel() {
         }
     }
 
-
+    companion object {
+        const val TAG = "DiningListViewModel"
+    }
 }
