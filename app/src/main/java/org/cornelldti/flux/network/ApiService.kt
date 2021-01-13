@@ -29,6 +29,9 @@ interface ApiService {
 
     @GET(HOW_DENSE)
     suspend fun getHowDense(@Query("id") id: String?): List<HowDense>
+
+    @GET(FACILITY_HOURS)
+    suspend fun getFacilityHours(@Query("id") id: String): List<FacilityHourList>
 }
 
 object Api {
