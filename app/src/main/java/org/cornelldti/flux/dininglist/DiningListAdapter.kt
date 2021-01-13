@@ -62,7 +62,7 @@ class DiningListAdapter(
                     ContextCompat.getColor(
                         context,
                         R.color.flux_grey_light
-                    ), PorterDuff.Mode.MULTIPLY
+                    ), PorterDuff.Mode.SRC_ATOP
                 )
             }
             if (item.isOpen) {
@@ -78,7 +78,7 @@ class DiningListAdapter(
                         ContextCompat.getColor(
                             context,
                             color
-                        ), PorterDuff.Mode.MULTIPLY
+                        ), PorterDuff.Mode.SRC_ATOP
                     )
                 }
             }
