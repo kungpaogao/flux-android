@@ -10,12 +10,6 @@ Read more about the pattern: https://en.wikipedia.org/wiki/Data_transfer_object
 */
 
 @Serializable
-data class BasicFacility(
-    val id: String,
-    val displayName: String
-)
-
-@Serializable
 data class DailyHours(
     val startTimestamp: Int,
     val endTimestamp: Int
