@@ -6,7 +6,6 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import org.cornelldti.flux.data.Facility
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -23,10 +22,10 @@ private val retrofit =
 
 interface ApiService {
     @GET(FACILITY_LIST)
-    fun getFacilityList(): Call<List<Facility>>
+    suspend fun getFacilityList(): List<Facility>
 
-//    @GET(FACILITY_INFO)
-//    suspend fun getFacilityInfo(@Query("id") id: String): List<String>
+    @GET(FACILITY_INFO)
+    suspend fun getFacilityInfo(@Query("id") id: String): List<FacilityInfo>
 
 }
 

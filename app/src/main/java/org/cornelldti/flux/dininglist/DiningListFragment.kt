@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.R
 import org.cornelldti.flux.databinding.DiningListFragmentBinding
 import org.cornelldti.flux.network.AuthTokenState
@@ -50,6 +51,7 @@ class DiningListFragment : Fragment() {
         return binding.root
     }
 
+    @ExperimentalSerializationApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeAuthState()
@@ -66,6 +68,7 @@ class DiningListFragment : Fragment() {
         this.findNavController().navigate(action)
     }
 
+    @ExperimentalSerializationApi
     private fun observeAuthState() {
         viewModel.tokenAcquired.observe(viewLifecycleOwner, { token ->
             when (token) {

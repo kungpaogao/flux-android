@@ -2,8 +2,8 @@ package org.cornelldti.flux.network
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -32,13 +32,14 @@ class FirebaseLiveData : LiveData<FirebaseUser?>() {
 
 // Map user to token LiveData
 val FirebaseTokenLiveData: LiveData<String?> =
-    Transformations.switchMap(FirebaseLiveData()) { user ->
+    FirebaseLiveData().switchMap() { user ->
         liveData {
             try {
                 val data = user?.getIdToken(true)?.await()?.token
                 emit(data)
             } catch (e: Exception) {
                 Log.w("FirebaseTokenLiveData", "Failed to get token")
+                emit(null)
             }
         }
     }

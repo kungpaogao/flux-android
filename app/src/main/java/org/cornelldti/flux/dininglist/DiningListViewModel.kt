@@ -1,17 +1,14 @@
 package org.cornelldti.flux.dininglist
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.data.Facility
 import org.cornelldti.flux.network.Api
 import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.network.FirebaseTokenLiveData
-import retrofit2.Call
-import retrofit2.Response
+import java.lang.Exception
 
 class DiningListViewModel: ViewModel() {
     private val _data = MutableLiveData<List<Facility>>()
@@ -22,7 +19,7 @@ class DiningListViewModel: ViewModel() {
     val response: LiveData<String>
         get() = _response
 
-    val tokenAcquired = Transformations.map(FirebaseTokenLiveData) { token ->
+    val tokenAcquired = FirebaseTokenLiveData.map { token ->
         if (token != null) {
             AuthTokenState.ACQUIRED
         } else {
@@ -32,22 +29,6 @@ class DiningListViewModel: ViewModel() {
 
     init {
         Log.i("DiningListViewModel", "DiningListViewModel created!")
-        _data.value = listOf(
-            Facility("f1", "Facility One"),
-            Facility("f2", "Facility Two"),
-            Facility("f3", "Facility Two"),
-            Facility("f4", "Facility Two"),
-            Facility("f5", "Facility Two"),
-            Facility("f6", "Facility Two"),
-            Facility("f7", "Facility Two"),
-            Facility("f8", "Facility Two"),
-            Facility("f9", "Facility Two"),
-            Facility("f10", "Facility Two"),
-            Facility("f11", "Facility Two"),
-            Facility("f12", "Facility Two"),
-            Facility("f13", "Facility Two"),
-            Facility("f14", "Facility Two"),
-        )
     }
 
     override fun onCleared() {
@@ -58,21 +39,15 @@ class DiningListViewModel: ViewModel() {
     @ExperimentalSerializationApi
     fun getDiningList() {
         Log.i("DiningListViewModel", "Fetching dining list")
-        Api.retrofitService.getFacilityList().enqueue(
-            object : retrofit2.Callback<List<Facility>> {
-                override fun onResponse(
-                    call: Call<List<Facility>>,
-                    response: Response<List<Facility>>
-                ) {
-                    _response.value = response.body().toString()
-                }
-
-                override fun onFailure(call: Call<List<Facility>>, t: Throwable) {
-                    _response.value = "Failure: ${t.message}"
-                }
-
+        viewModelScope.launch {
+            try {
+                val listResult = Api.retrofitService.getFacilityList()
+                _data.value = listResult
+                _response.value = listResult.toString()
+            } catch (e: Exception) {
+                _response.value = "Failure: ${e.message}"
             }
-        )
+        }
     }
 
 
