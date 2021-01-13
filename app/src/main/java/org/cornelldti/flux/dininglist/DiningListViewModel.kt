@@ -42,7 +42,7 @@ class DiningListViewModel: ViewModel() {
         Log.i("DiningListViewModel", "Fetching dining list")
         viewModelScope.launch {
             try {
-//              // make requests
+                // make requests
                 val facilityList = Api.retrofitService.getFacilityList()
                 val facilityInfoList = Api.retrofitService.getFacilityInfo(null)
                 val howDenseList = Api.retrofitService.getHowDense(null)

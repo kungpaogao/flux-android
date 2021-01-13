@@ -3,4 +3,14 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="flux_blue">#4A90E2</color>
+    <color name="flux_green">#5AD993</color>
+    <color name="flux_yellow">#FFE082</color>
+    <color name="flux_orange">#FFC780</color>
+    <color name="flux_red">#FA4735</color>
+
+    <color name="flux_grey_light">#EFEFEF</color>
+    <color name="flux_grey_medium">#989A9D</color>
+    <color name="flux_grey_dark">#555555</color>
 </resources>

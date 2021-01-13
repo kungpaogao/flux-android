@@ -11,4 +11,19 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Facility status strings -->
+    <string name="status_open">Open</string>
+    <string name="status_closed">Closed</string>
+    <string name="status_very_empty">Not Busy</string>
+    <string name="status_pretty_empty">Somewhat Busy</string>
+    <string name="status_pretty_crowded">Pretty Busy</string>
+    <string name="status_very_crowded">Very Busy</string>
+    <string name="status_unknown">Unknown</string>
+
+    <!-- Pill content description strings -->
+    <string name="item_first_pill">First pill</string>
+    <string name="item_second_pill">Second pill</string>
+    <string name="item_third_pill">Third pill</string>
+    <string name="item_fourth_pill">Fourth pill</string>
 </resources>

@@ -7,30 +7,79 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        app:cardCornerRadius="16dp">
+        app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
             android:padding="16dp">
-
-            <TextView
-                android:id="@+id/facility_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="facilityId" />
 
             <TextView
                 android:id="@+id/facility_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="@id/facility_id"
-                app:layout_constraintTop_toBottomOf="@id/facility_id"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Facility Name" />
+
+            <TextView
+                android:id="@+id/facility_density"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/facility_name"
+                tools:text="Facility density" />
+
+            <ImageView
+                android:id="@+id/first_pill"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/item_first_pill"
+                android:src="@drawable/occupancy_pill"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toStartOf="@id/second_pill"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/facility_name" />
+
+            <ImageView
+                android:id="@+id/second_pill"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/item_second_pill"
+                android:src="@drawable/occupancy_pill"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toStartOf="@id/third_pill"
+                app:layout_constraintStart_toEndOf="@id/first_pill"
+                app:layout_constraintTop_toTopOf="@id/first_pill" />
+
+            <ImageView
+                android:id="@+id/third_pill"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/item_third_pill"
+                android:src="@drawable/occupancy_pill"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toStartOf="@id/fourth_pill"
+                app:layout_constraintStart_toEndOf="@id/second_pill"
+                app:layout_constraintTop_toTopOf="@id/second_pill" />
+
+            <ImageView
+                android:id="@+id/fourth_pill"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/item_fourth_pill"
+                android:src="@drawable/occupancy_pill"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/third_pill"
+                app:layout_constraintTop_toTopOf="@id/third_pill" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
