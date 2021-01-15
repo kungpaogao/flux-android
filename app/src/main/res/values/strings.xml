@@ -29,4 +29,8 @@
 
     <string name="search">Search</string>
     <string name="places">Places</string>
+    <string name="central">Central</string>
+    <string name="west">West</string>
+    <string name="north">North</string>
+    <string name="all">All</string>
 </resources>

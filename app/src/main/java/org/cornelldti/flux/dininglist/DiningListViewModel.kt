@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
+import org.cornelldti.flux.data.CampusLocation
 import org.cornelldti.flux.data.Facility
 import org.cornelldti.flux.data.toCampusLocation
 import org.cornelldti.flux.network.Api
@@ -11,16 +12,29 @@ import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.network.FirebaseTokenLiveData
 import java.lang.Exception
 
-class DiningListViewModel: ViewModel() {
+class DiningListViewModel : ViewModel() {
     private val _data = MutableLiveData<List<Facility>>()
+
+    /**
+     * Public LiveData that shows filtered version of `_data`
+     */
     val data: LiveData<List<Facility>>
-        get() = _data
+        get() = _data.map { list ->
+            list.filter { facility ->
+                filter == facility.campusLocation || filter == null
+            }
+        }
+
+    private var filter: CampusLocation? = null
 
     private val _response = MutableLiveData<String>()
     val response: LiveData<String>
         get() = _response
 
-    val tokenAcquired = FirebaseTokenLiveData.map { token ->
+    /**
+     * LiveData container that maps the token to token state
+     */
+    val tokenAcquired: LiveData<AuthTokenState> = FirebaseTokenLiveData.map { token ->
         if (token != null) {
             AuthTokenState.ACQUIRED
         } else {
@@ -37,6 +51,24 @@ class DiningListViewModel: ViewModel() {
         Log.i(TAG, "DiningListViewModel destroyed!")
     }
 
+    /**
+     * Sets list filter to given location
+     */
+    fun updateLocationFilter(location: CampusLocation?) {
+        // check null to make sure that we don't attempt `Transformations.map` on null LiveData
+        if (_data.value != null) {
+            filter = location
+            /* TODO: think of better way of force refreshing data;
+                maybe, make filter LiveData so that `data` can observe both `_data` and `filter`
+             */
+            _data.value = _data.value
+        }
+    }
+
+    /**
+     * Calls Retrofit (network) to get facility list, info, and density information.
+     * Then, combines responses and sets data and response.
+     */
     @ExperimentalSerializationApi
     fun getDiningList() {
         Log.i(TAG, "Fetching dining list")

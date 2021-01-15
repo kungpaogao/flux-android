@@ -17,6 +17,7 @@ class DiningListAdapter(
 
     var data = listOf<Facility>()
         set(value) {
+            // TODO: add DiffUtil to avoid refreshing when not necessary
             field = value
             notifyDataSetChanged()
         }

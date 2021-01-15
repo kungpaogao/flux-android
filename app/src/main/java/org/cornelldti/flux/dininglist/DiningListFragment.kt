@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.R
+import org.cornelldti.flux.data.CampusLocation
 import org.cornelldti.flux.databinding.DiningListFragmentBinding
 import org.cornelldti.flux.network.AuthTokenState
 
@@ -54,11 +55,17 @@ class DiningListFragment : Fragment() {
     @ExperimentalSerializationApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         observeAuthState()
 
         viewModel.response.observe(viewLifecycleOwner, { binding.responseText.text = it })
+
+        setChipListener()
     }
 
+    /**
+     * Handle click of a facility in the facility list RecyclerView
+     */
     private fun onFacilityClick(facilityId: String) {
         Toast.makeText(context, "Clicked: $facilityId", Toast.LENGTH_SHORT).show()
         val action =
@@ -68,6 +75,25 @@ class DiningListFragment : Fragment() {
         this.findNavController().navigate(action)
     }
 
+    private fun setChipListener() {
+        binding.diningListFilter.check(R.id.chip_filter_all)
+        binding.diningListFilter.setOnCheckedChangeListener { _, isChecked ->
+            Log.i(TAG, "Clicked chip: $isChecked")
+            viewModel.updateLocationFilter(
+                when (isChecked) {
+                    R.id.chip_filter_all -> null
+                    R.id.chip_filter_north -> CampusLocation.NORTH
+                    R.id.chip_filter_west -> CampusLocation.WEST
+                    R.id.chip_filter_central -> CampusLocation.CENTRAL
+                    else -> null
+                }
+            )
+        }
+    }
+
+    /**
+     * Observe state of auth token and make network request when token is acquired
+     */
     @ExperimentalSerializationApi
     private fun observeAuthState() {
         viewModel.tokenAcquired.observe(viewLifecycleOwner, { token ->
@@ -82,5 +108,9 @@ class DiningListFragment : Fragment() {
                 }
             }
         })
+    }
+
+    companion object {
+        const val TAG = "DiningListFragment"
     }
 }
