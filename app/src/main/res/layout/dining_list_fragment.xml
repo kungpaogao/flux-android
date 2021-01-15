@@ -5,7 +5,8 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".dininglist.DiningListFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -42,28 +43,28 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_filter_all"
-                        style="@style/FilterChipStyle"
+                        style="@style/Flux.FilterChipStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/all" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_filter_north"
-                        style="@style/FilterChipStyle"
+                        style="@style/Flux.FilterChipStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/north" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_filter_west"
-                        style="@style/FilterChipStyle"
+                        style="@style/Flux.FilterChipStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/west" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_filter_central"
-                        style="@style/FilterChipStyle"
+                        style="@style/Flux.FilterChipStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/central" />
@@ -79,18 +80,16 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".dininglist.DiningListFragment">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/response_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/dining_list"
@@ -98,11 +97,9 @@
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
                     android:padding="16dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/response_text" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
