@@ -26,7 +26,7 @@ jobs:
     - name: Setup secrets shh
       env:
         gs: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      run: echo gs > app/google-services.json
+      run: echo $gs > app/google-services.json
       
     - name: Build with Gradle
       run: ./gradlew build -P isCI=true
