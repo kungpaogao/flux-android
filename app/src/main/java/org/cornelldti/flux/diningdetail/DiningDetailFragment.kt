@@ -30,8 +30,6 @@ class DiningDetailFragment : Fragment() {
             false
         )
 
-
-
         viewModelFactory =
             DiningDetailViewModelFactory(DiningDetailFragmentArgs.fromBundle(requireArguments()).facilityId)
 

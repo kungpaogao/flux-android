@@ -7,11 +7,6 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- Facility status strings -->
     <string name="status_open">Open</string>
     <string name="status_closed">Closed</string>
@@ -33,4 +28,8 @@
     <string name="west">West</string>
     <string name="north">North</string>
     <string name="all">All</string>
+
+    <string name="menu">Menu</string>
+    <string name="availability">Availability</string>
+    <string name="no_menu">No menu items available.</string>
 </resources>
