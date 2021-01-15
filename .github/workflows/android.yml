@@ -1,4 +1,4 @@
-name: Android CI
+name: Android CI main
 
 on:
   push:
@@ -25,12 +25,3 @@ jobs:
       
     - name: Build with Gradle
       run: ./gradlew build -P isCI=true
-      
-    - name: Assemble debug apk
-      run: ./gradlew assembleDebug
-      
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.1
-      with:
-        name: debug-apk
-        path: app/build/outputs/apk/debug/app-debug.apk
