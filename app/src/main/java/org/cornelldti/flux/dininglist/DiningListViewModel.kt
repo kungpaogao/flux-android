@@ -2,6 +2,7 @@ package org.cornelldti.flux.dininglist
 
 import android.util.Log
 import androidx.lifecycle.*
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.data.CampusLocation
@@ -74,29 +75,30 @@ class DiningListViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 // make requests
-                val facilityList = Api.retrofitService.getFacilityList()
-                val facilityInfoList = Api.retrofitService.getFacilityInfo()
-                val howDenseList = Api.retrofitService.getHowDense()
+                val facilityList = async { Api.retrofitService.getFacilityList() }
+                val facilityInfoList = async { Api.retrofitService.getFacilityInfo() }
+                val howDenseList = async { Api.retrofitService.getHowDense() }
 
-                val facilityListMap = facilityList.associateBy { facility -> facility.id }
+                val facilityListMap =
+                    facilityList.await().associateBy { facility -> facility.id }
 
-                howDenseList.map { howDense ->
+                howDenseList.await().map { howDense ->
                     val facility = facilityListMap[howDense.id]
                     if (facility != null) {
                         facility.density = howDense.density
                     }
                 }
 
-                facilityInfoList.map { facilityInfo ->
+                facilityInfoList.await().map { facilityInfo ->
                     val facility = facilityListMap[facilityInfo.id]
-                    facility?.let {
-                        it.isOpen = facilityInfo.isOpen
-                        it.campusLocation = facilityInfo.campusLocation
+                    facility?.apply {
+                        isOpen = facilityInfo.isOpen
+                        campusLocation = facilityInfo.campusLocation
                     }
                 }
 
-                _data.value = facilityList
-                _response.value = facilityList.toString()
+                _data.value = facilityList.await()
+                _response.value = _data.value.toString()
             } catch (e: Exception) {
                 _response.value = "Failure: ${e.message}"
             }
