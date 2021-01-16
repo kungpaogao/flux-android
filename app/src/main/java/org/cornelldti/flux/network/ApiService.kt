@@ -5,20 +5,28 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.cornelldti.flux.data.Facility
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-private val headerClient = OkHttpClient.Builder().addInterceptor(HeaderInterceptor())
+private const val DEBUG = false
+
+private val httpClient = OkHttpClient.Builder().apply {
+    addInterceptor(HeaderInterceptor())
+    if (DEBUG) addInterceptor(HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    })
+}
 
 @ExperimentalSerializationApi
 private val retrofit =
-    Retrofit.Builder().client(headerClient.build())
+    Retrofit.Builder()
+        .client(httpClient.build())
+        .baseUrl(BASE_URL)
         .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-        .baseUrl(
-            BASE_URL
-        ).build()
+        .build()
 
 interface ApiService {
     @GET(FACILITY_LIST)
@@ -36,10 +44,10 @@ interface ApiService {
         @Query("startDate") startDate: String,
         @Query("endDate") endDate: String,
     ): List<FacilityHourList>
-    
+
     @GET(MENU_DATA)
     suspend fun getMenuData(
-        @Query("id") id: String,
+        @Query("facility") id: String,
         @Query("startDate") startDate: String,
         @Query("endDate") endDate: String? = null,
         @Query("q") query: String? = null
