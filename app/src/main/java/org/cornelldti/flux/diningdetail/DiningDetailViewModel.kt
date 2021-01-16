@@ -1,18 +1,20 @@
 package org.cornelldti.flux.diningdetail
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
+import androidx.lifecycle.*
+import kotlinx.coroutines.launch
+import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.data.Facility
+import org.cornelldti.flux.network.Api
 import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.network.FirebaseTokenLiveData
+import org.cornelldti.flux.util.DateTime
+import java.lang.Exception
 
-class DiningDetailViewModel(val facilityId: String) : ViewModel() {
+class DiningDetailViewModel(val facilityId: String, val facilityName: String) : ViewModel() {
 
-    private val _data = MutableLiveData<List<Facility>>()
-    val data: LiveData<List<Facility>>
+    private val _data = MutableLiveData<Facility>()
+    val data: LiveData<Facility>
         get() = _data
 
     private val _response = MutableLiveData<String>()
@@ -31,11 +33,28 @@ class DiningDetailViewModel(val facilityId: String) : ViewModel() {
     }
 
     init {
-        Log.i("DiningDetailViewModel", "Facility ID is $facilityId")
+        Log.i(TAG, "id: $facilityId, name: $facilityName")
     }
 
+    @ExperimentalSerializationApi
     fun getDiningDetail() {
+        Log.i(TAG, "Fetching dining list")
+        viewModelScope.launch {
+            try {
+                val facilityInfo = Api.retrofitService.getFacilityInfo(facilityId)[0]
+                val facilityHours = Api.retrofitService.getFacilityHours(
+                    facilityId,
+                    DateTime.TODAY,
+                    DateTime.TOMORROW
+                )[0]
+                val menuData = Api.retrofitService.getMenuData(facilityId, DateTime.TODAY)
+            } catch (e: Exception) {
+                _response.value = "Failure ${e.message}"
+            }
+        }
+    }
 
-        TODO("fetch dining detail from API")
+    companion object {
+        const val TAG = "DiningDetailViewModel"
     }
 }

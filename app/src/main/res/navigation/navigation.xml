@@ -21,5 +21,8 @@
         <argument
             android:name="facilityId"
             app:argType="string" />
+        <argument
+            android:name="facilityName"
+            app:argType="string" />
     </fragment>
 </navigation>

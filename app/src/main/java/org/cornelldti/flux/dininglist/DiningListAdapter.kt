@@ -98,6 +98,6 @@ class DiningListAdapter(
 
 }
 
-class FacilityListener(val clickListener: (facilityId: String) -> Unit) {
-    fun onClick(facility: Facility) = clickListener(facility.id)
+class FacilityListener(val clickListener: (facility: Facility) -> Unit) {
+    fun onClick(facility: Facility) = clickListener(facility)
 }

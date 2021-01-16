@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.R
 import org.cornelldti.flux.data.CampusLocation
+import org.cornelldti.flux.data.Facility
 import org.cornelldti.flux.databinding.DiningListFragmentBinding
 import org.cornelldti.flux.network.AuthTokenState
 
@@ -37,8 +38,8 @@ class DiningListFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.dining_list_fragment, container, false)
 
-        val adapter = DiningListAdapter(FacilityListener { facilityId ->
-            onFacilityClick(facilityId)
+        val adapter = DiningListAdapter(FacilityListener { facility ->
+            onFacilityClick(facility)
         })
 
         binding.diningList.adapter = adapter
@@ -66,11 +67,11 @@ class DiningListFragment : Fragment() {
     /**
      * Handle click of a facility in the facility list RecyclerView
      */
-    private fun onFacilityClick(facilityId: String) {
-        Toast.makeText(context, "Clicked: $facilityId", Toast.LENGTH_SHORT).show()
+    private fun onFacilityClick(facility: Facility) {
+        Toast.makeText(context, "Clicked: ${facility.id}", Toast.LENGTH_SHORT).show()
         val action =
             DiningListFragmentDirections.actionDiningListFragmentToDiningDetailFragment(
-                facilityId
+                facility.id, facility.displayName
             )
         this.findNavController().navigate(action)
     }
