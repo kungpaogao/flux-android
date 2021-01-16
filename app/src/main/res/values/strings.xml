@@ -32,4 +32,5 @@
     <string name="menu">Menu</string>
     <string name="availability">Availability</string>
     <string name="no_menu">No menu items available.</string>
+    <string name="refresh">Refresh</string>
 </resources>
