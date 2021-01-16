@@ -6,7 +6,6 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.data.CampusLocation
 import org.cornelldti.flux.data.Facility
-import org.cornelldti.flux.data.toCampusLocation
 import org.cornelldti.flux.network.Api
 import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.network.FirebaseTokenLiveData
@@ -92,7 +91,7 @@ class DiningListViewModel : ViewModel() {
                     val facility = facilityListMap[facilityInfo.id]
                     facility?.let {
                         it.isOpen = facilityInfo.isOpen
-                        it.campusLocation = facilityInfo.campusLocation.toCampusLocation()
+                        it.campusLocation = facilityInfo.campusLocation
                     }
                 }
 

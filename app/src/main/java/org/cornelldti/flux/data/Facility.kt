@@ -1,5 +1,6 @@
 package org.cornelldti.flux.data
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.cornelldti.flux.R
 
@@ -48,15 +49,20 @@ data class DayMenu(
     val menus: List<Menu>
 )
 
+@Serializable
 enum class CampusLocation {
-    NORTH, WEST, SOUTH, CENTRAL, UNKNOWN
-}
+    @SerialName("north")
+    NORTH,
 
-fun String.toCampusLocation() =
-    when (this) {
-        "north" -> CampusLocation.NORTH
-        "west" -> CampusLocation.WEST
-        "south" -> CampusLocation.SOUTH
-        "central" -> CampusLocation.CENTRAL
-        else -> CampusLocation.UNKNOWN
-    }
+    @SerialName("west")
+    WEST,
+
+    @SerialName("south")
+    SOUTH,
+
+    @SerialName("central")
+    CENTRAL,
+
+    @SerialName("null")
+    UNKNOWN
+}

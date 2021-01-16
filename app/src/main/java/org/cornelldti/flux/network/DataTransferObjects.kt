@@ -1,6 +1,7 @@
 package org.cornelldti.flux.network
 
 import kotlinx.serialization.Serializable
+import org.cornelldti.flux.data.CampusLocation
 import org.cornelldti.flux.data.DayMenu
 
 /*
@@ -23,7 +24,7 @@ data class FacilityInfo(
     val isOpen: Boolean,
     val nextOpen: Int,
     val closingAt: Int,
-    val campusLocation: String,
+    val campusLocation: CampusLocation,
 )
 
 @Serializable
