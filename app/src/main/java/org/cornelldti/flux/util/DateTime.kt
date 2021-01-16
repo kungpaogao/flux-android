@@ -15,16 +15,14 @@ object DateTime {
 
     val TOMORROW: String
         get() {
-            val now = Calendar.getInstance()
-            now.add(Calendar.DATE, 1)
-            return now.time.toISODateString()
+            val tomorrow = Calendar.getInstance().apply { add(Calendar.DATE, 1) }
+            return tomorrow.time.toISODateString()
         }
 
     val NEXT_WEEK: String
         get() {
-            val now = Calendar.getInstance()
-            now.add(Calendar.DATE, 6)
-            return now.time.toISODateString()
+            val nextWeek = Calendar.getInstance().apply { add(Calendar.DATE, 6) }
+            return nextWeek.time.toISODateString()
         }
 }
 
