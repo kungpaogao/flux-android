@@ -31,7 +31,7 @@ class DiningListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        Log.i("DiningListFragment", "Called ViewModelProvider.get")
+        Log.i(TAG, "Called ViewModelProvider.get")
         viewModel = ViewModelProvider(this).get(DiningListViewModel::class.java)
 
         // Inflate the layout for this fragment
@@ -99,12 +99,12 @@ class DiningListFragment : Fragment() {
         viewModel.tokenAcquired.observe(viewLifecycleOwner, { token ->
             when (token) {
                 AuthTokenState.ACQUIRED -> {
-                    Log.i("DiningListFragment", "Authentication success")
+                    Log.i(TAG, "Authentication success")
                     viewModel.getDiningList()
                     // TODO: fix fetching multiple times
                 }
                 else -> {
-                    Log.w("DiningListFragment", "Authentication failure")
+                    Log.w(TAG, "Authentication failure")
                 }
             }
         })

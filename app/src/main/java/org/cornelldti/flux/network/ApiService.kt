@@ -25,13 +25,25 @@ interface ApiService {
     suspend fun getFacilityList(): List<Facility>
 
     @GET(FACILITY_INFO)
-    suspend fun getFacilityInfo(@Query("id") id: String?): List<FacilityInfo>
+    suspend fun getFacilityInfo(@Query("id") id: String? = null): List<FacilityInfo>
 
     @GET(HOW_DENSE)
-    suspend fun getHowDense(@Query("id") id: String?): List<HowDense>
+    suspend fun getHowDense(@Query("id") id: String? = null): List<HowDense>
 
     @GET(FACILITY_HOURS)
-    suspend fun getFacilityHours(@Query("id") id: String): List<FacilityHourList>
+    suspend fun getFacilityHours(
+        @Query("id") id: String,
+        @Query("startDate") startDate: String,
+        @Query("endDate") endDate: String,
+    ): List<FacilityHourList>
+    
+    @GET(MENU_DATA)
+    suspend fun getMenuData(
+        @Query("id") id: String,
+        @Query("startDate") startDate: String,
+        @Query("endDate") endDate: String? = null,
+        @Query("q") query: String? = null
+    ): List<MenuData>
 }
 
 object Api {

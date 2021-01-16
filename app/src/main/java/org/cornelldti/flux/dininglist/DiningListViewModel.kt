@@ -76,8 +76,8 @@ class DiningListViewModel : ViewModel() {
             try {
                 // make requests
                 val facilityList = Api.retrofitService.getFacilityList()
-                val facilityInfoList = Api.retrofitService.getFacilityInfo(null)
-                val howDenseList = Api.retrofitService.getHowDense(null)
+                val facilityInfoList = Api.retrofitService.getFacilityInfo()
+                val howDenseList = Api.retrofitService.getHowDense()
 
                 val facilityListMap = facilityList.associateBy { facility -> facility.id }
 

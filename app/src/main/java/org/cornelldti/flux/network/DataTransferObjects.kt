@@ -1,6 +1,7 @@
 package org.cornelldti.flux.network
 
 import kotlinx.serialization.Serializable
+import org.cornelldti.flux.data.DayMenu
 
 /*
 Data transfer objects are used to carry data between Retrofit responses and actual data classes
@@ -44,4 +45,10 @@ data class FacilityHour(
 data class FacilityHourList(
     val id: String,
     val hours: List<FacilityHour>,
+)
+
+@Serializable
+data class MenuData(
+    val id: String,
+    val weeksMenus: List<DayMenu>
 )

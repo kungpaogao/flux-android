@@ -27,6 +27,27 @@ data class Facility(
             }
 }
 
+@Serializable
+data class MenuItem(
+    val items: List<String>,
+    val category: String
+)
+
+@Serializable
+data class Menu(
+    val menu: List<MenuItem>,
+    val description: String,
+    val endTime: Int,
+    val startTime: Int,
+    val similarity: Double
+)
+
+@Serializable
+data class DayMenu(
+    val date: String,
+    val menus: List<Menu>
+)
+
 enum class CampusLocation {
     NORTH, WEST, SOUTH, CENTRAL, UNKNOWN
 }
