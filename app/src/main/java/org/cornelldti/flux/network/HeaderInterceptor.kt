@@ -15,8 +15,6 @@ class HeaderInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         Log.i(TAG, "Start intercept")
-        // TODO: REMOVE
-        // Log.d(TAG, FirebaseTokenLiveData.value!!)
         val request = chain.request().newBuilder()
             .addHeader("Authorization", "Bearer ${FirebaseTokenLiveData.value!!}")
             .build()
