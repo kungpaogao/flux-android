@@ -37,13 +37,14 @@
                     android:id="@+id/dining_detail_response"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Response" />
 
                 <TextView
                     android:id="@+id/header_availability"
-                    style="@style/TextAppearance.MaterialComponents.Headline5"
+                    style="@style/Flux.SectionHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/availability"
@@ -62,17 +63,17 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/flux_grey_medium"
+                        android:background="@color/flux_grey_light"
                         android:padding="16dp">
 
                         <TextView
                             android:id="@+id/text_availability_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Some number"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Some number" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
@@ -88,7 +89,7 @@
 
                 <TextView
                     android:id="@+id/header_menu"
-                    style="@style/TextAppearance.MaterialComponents.Headline5"
+                    style="@style/Flux.SectionHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -138,13 +139,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="16dp"
-                            android:text="@string/no_menu" />
+                            android:text="@string/no_menu"
+                            android:visibility="gone" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/list_menu_items"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="16dp" />
+                            android:clipToPadding="false"
+                            android:paddingHorizontal="16dp"
+                            android:paddingBottom="16dp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                     </LinearLayout>
 

@@ -17,9 +17,12 @@ data class Facility(
     // howDense
     var density: Int = -1,
     // menuData
-    var menus: List<DayMenu> = listOf()
+    var weekMenu: Map<String, List<Menu>> = mapOf()
     // TODO: facilityHours
 ) {
+    /**
+     * Returns string resource ID corresponding to the current density
+     */
     val densityString: Int
         get() =
             if (!this.isOpen) {
@@ -31,18 +34,45 @@ data class Facility(
                 3 -> R.string.status_very_crowded
                 else -> R.string.status_unknown
             }
+
+    /**
+     *
+     * @param date date given in ISO date string format
+     */
+    fun mealsByDate(date: String): List<Meal> {
+        val dayMenus = weekMenu[date]
+        return dayMenus?.map { it.description } ?: listOf()
+    }
 }
 
 @Serializable
-data class MenuItem(
+enum class Meal {
+    @SerialName("Breakfast")
+    BREAKFAST,
+
+    @SerialName("Brunch")
+    BRUNCH,
+
+    @SerialName("Lunch")
+    LUNCH,
+
+    @SerialName("Lite Lunch")
+    LITE_LUNCH,
+
+    @SerialName("Dinner")
+    DINNER,
+}
+
+@Serializable
+data class MenuCategory(
     val items: List<String>,
     val category: String
 )
 
 @Serializable
 data class Menu(
-    val menu: List<MenuItem>,
-    val description: String,
+    val menu: List<MenuCategory>,
+    val description: Meal,
     val endTime: Int,
     val startTime: Int,
     // val similarity: Double

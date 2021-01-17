@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.R
 import org.cornelldti.flux.databinding.DiningDetailFragmentBinding
@@ -43,6 +44,21 @@ class DiningDetailFragment : Fragment() {
 
         binding.diningDetailAppbar.title = viewModel.facilityName
         binding.diningDetailAppbar.subtitle = viewModel.facilityId
+
+        val adapter = DiningDetailMenuListAdapter()
+        binding.listMenuItems.adapter = adapter
+        viewModel.menu.observe(viewLifecycleOwner, {
+            adapter.data = it
+        })
+
+        viewModel.availability.observe(viewLifecycleOwner, {
+            binding.textAvailabilityNum.text = getString(it)
+        })
+
+//        viewModel.meals.observe(viewLifecycleOwner, {
+//            val tabLayout = binding.tabsMenuMeal
+//            TabLayoutMediator(tabLayout, viewPager)
+//        })
 
         return binding.root
     }

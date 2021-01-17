@@ -33,7 +33,9 @@
         <item name="chipStrokeWidth">0dp</item>
     </style>
 
-    <style name="Flux.SectionHeading" parent="TextAppearance.MaterialComponents.Headline5" />
+    <style name="Flux.SectionHeading" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="Flux.CardView" parent="Widget.MaterialComponents.CardView">
         <item name="cardElevation">2.5dp</item>

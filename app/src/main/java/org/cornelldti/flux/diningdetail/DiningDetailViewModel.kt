@@ -5,7 +5,10 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
+import org.cornelldti.flux.data.DayMenu
 import org.cornelldti.flux.data.Facility
+import org.cornelldti.flux.data.Meal
+import org.cornelldti.flux.data.MenuCategory
 import org.cornelldti.flux.network.Api
 import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.network.FirebaseTokenLiveData
@@ -14,13 +17,25 @@ import java.lang.Exception
 
 class DiningDetailViewModel(val facilityId: String, val facilityName: String) : ViewModel() {
 
+    private val _response = MutableLiveData<String>()
+    val response: LiveData<String>
+        get() = _response
+
     private val _data = MutableLiveData<Facility>()
     val data: LiveData<Facility>
         get() = _data
 
-    private val _response = MutableLiveData<String>()
-    val response: LiveData<String>
-        get() = _response
+    private val _menu = MutableLiveData<List<MenuCategory>>()
+    val menu: LiveData<List<MenuCategory>>
+        get() = _menu
+
+    private val _availability = MutableLiveData<Int>()
+    val availability: LiveData<Int>
+        get() = _availability
+
+    private val _meals = MutableLiveData<List<Meal>>()
+    val meals: LiveData<List<Meal>>
+        get() = _meals
 
     /**
      * LiveData container that maps the token to token state
@@ -53,7 +68,7 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
                         DateTime.TOMORROW
                     )[0]
                 }
-                val weeksMenu =
+                val weeksMenus =
                     async {
                         Api.retrofitService.getMenuData(
                             facilityId,
@@ -71,10 +86,14 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
 
                     howDense.await().let {
                         density = it.density
+                        _availability.value = densityString
                     }
 
-                    weeksMenu.await().let {
-                        menus = it
+                    weeksMenus.await().let { menus ->
+                        weekMenu = menus.associateBy({ it.date }, { it.menus })
+
+                        _meals.value = mealsByDate(DateTime.TODAY)
+                        _menu.value = menus.firstOrNull()?.menus?.firstOrNull()?.menu
                     }
 
                     _response.value = this.toString()

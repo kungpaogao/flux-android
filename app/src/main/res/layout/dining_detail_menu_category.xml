@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/menu_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/flux_grey_dark_extra"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Category Name" />
+
+        <TextView
+            android:id="@+id/menu_item_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:lineSpacingExtra="2dp"
+            android:textColor="@color/flux_grey_dark_extra"
+            android:textSize="16sp"
+            tools:text="Item name\nhi" />
+
+    </LinearLayout>
+
+</layout>
