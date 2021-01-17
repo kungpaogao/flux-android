@@ -115,24 +115,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:tabIndicatorColor="@color/flux_green"
-                            app:tabSelectedTextColor="@color/flux_green">
-
-                            <com.google.android.material.tabs.TabItem
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Breakfast" />
-
-                            <com.google.android.material.tabs.TabItem
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Lunch" />
-
-                            <com.google.android.material.tabs.TabItem
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Dinner" />
-
-                        </com.google.android.material.tabs.TabLayout>
+                            app:tabSelectedTextColor="@color/flux_green" />
 
                         <TextView
                             android:id="@+id/text_no_menu"
@@ -142,14 +125,13 @@
                             android:text="@string/no_menu"
                             android:visibility="gone" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/list_menu_items"
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:id="@+id/viewpager_menu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clipToPadding="false"
                             android:paddingHorizontal="16dp"
                             android:paddingBottom="16dp"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                            android:clipToPadding="false" />
 
                     </LinearLayout>
 

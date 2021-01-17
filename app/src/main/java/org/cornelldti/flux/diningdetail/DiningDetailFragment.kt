@@ -45,21 +45,6 @@ class DiningDetailFragment : Fragment() {
         binding.diningDetailAppbar.title = viewModel.facilityName
         binding.diningDetailAppbar.subtitle = viewModel.facilityId
 
-        val adapter = DiningDetailMenuListAdapter()
-        binding.listMenuItems.adapter = adapter
-        viewModel.menu.observe(viewLifecycleOwner, {
-            adapter.data = it
-        })
-
-        viewModel.availability.observe(viewLifecycleOwner, {
-            binding.textAvailabilityNum.text = getString(it)
-        })
-
-//        viewModel.meals.observe(viewLifecycleOwner, {
-//            val tabLayout = binding.tabsMenuMeal
-//            TabLayoutMediator(tabLayout, viewPager)
-//        })
-
         return binding.root
     }
 
@@ -71,6 +56,20 @@ class DiningDetailFragment : Fragment() {
 
         viewModel.response.observe(viewLifecycleOwner, { response ->
             binding.diningDetailResponse.text = response
+        })
+
+        viewModel.availability.observe(viewLifecycleOwner, {
+            binding.textAvailabilityNum.text = getString(it)
+        })
+
+        val adapter = MenuMealAdapter(this)
+        val viewPager = binding.viewpagerMenu
+        viewPager.adapter = adapter
+        viewModel.menu.observe(viewLifecycleOwner, {
+            adapter.meals = it
+            TabLayoutMediator(binding.tabsMenuMeal, viewPager) { tab, position ->
+                tab.text = it[position].description.toString()
+            }.attach()
         })
     }
 

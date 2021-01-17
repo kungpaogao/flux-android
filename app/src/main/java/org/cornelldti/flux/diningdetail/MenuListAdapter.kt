@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.cornelldti.flux.data.MenuCategory
-import org.cornelldti.flux.databinding.DiningDetailMenuCategoryBinding
+import org.cornelldti.flux.databinding.MenuListItemBinding
 
-class DiningDetailMenuListAdapter :
-    RecyclerView.Adapter<DiningDetailMenuListAdapter.ViewHolder>() {
+class MenuListAdapter :
+    RecyclerView.Adapter<MenuListAdapter.ViewHolder>() {
 
     var data = listOf<MenuCategory>()
         set(value) {
@@ -27,10 +27,8 @@ class DiningDetailMenuListAdapter :
 
     override fun getItemCount() = data.size
 
-    class ViewHolder private constructor(private val binding: DiningDetailMenuCategoryBinding) :
+    class ViewHolder private constructor(private val binding: MenuListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-        private val context = binding.root.context
 
         fun bind(
             item: MenuCategory,
@@ -44,7 +42,7 @@ class DiningDetailMenuListAdapter :
 
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = DiningDetailMenuCategoryBinding.inflate(layoutInflater, parent, false)
+                val binding = MenuListItemBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
         }

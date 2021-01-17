@@ -5,10 +5,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
-import org.cornelldti.flux.data.DayMenu
-import org.cornelldti.flux.data.Facility
-import org.cornelldti.flux.data.Meal
-import org.cornelldti.flux.data.MenuCategory
+import org.cornelldti.flux.data.*
 import org.cornelldti.flux.network.Api
 import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.network.FirebaseTokenLiveData
@@ -25,17 +22,13 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
     val data: LiveData<Facility>
         get() = _data
 
-    private val _menu = MutableLiveData<List<MenuCategory>>()
-    val menu: LiveData<List<MenuCategory>>
+    private val _menu = MutableLiveData<List<Menu>>()
+    val menu: LiveData<List<Menu>>
         get() = _menu
 
     private val _availability = MutableLiveData<Int>()
     val availability: LiveData<Int>
         get() = _availability
-
-    private val _meals = MutableLiveData<List<Meal>>()
-    val meals: LiveData<List<Meal>>
-        get() = _meals
 
     /**
      * LiveData container that maps the token to token state
@@ -91,9 +84,7 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
 
                     weeksMenus.await().let { menus ->
                         weekMenu = menus.associateBy({ it.date }, { it.menus })
-
-                        _meals.value = mealsByDate(DateTime.TODAY)
-                        _menu.value = menus.firstOrNull()?.menus?.firstOrNull()?.menu
+                        _menu.value = weekMenu[DateTime.TODAY]
                     }
 
                     _response.value = this.toString()
