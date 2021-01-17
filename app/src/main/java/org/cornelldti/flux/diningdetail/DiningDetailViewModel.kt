@@ -2,6 +2,7 @@ package org.cornelldti.flux.diningdetail
 
 import android.util.Log
 import androidx.lifecycle.*
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.data.Facility
@@ -34,6 +35,8 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
 
     init {
         Log.i(TAG, "id: $facilityId, name: $facilityName")
+        // initialize value based on ViewModel params
+        _data.value = Facility(facilityId, facilityName)
     }
 
     @ExperimentalSerializationApi
@@ -41,13 +44,42 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
         Log.i(TAG, "Fetching dining list")
         viewModelScope.launch {
             try {
-                val facilityInfo = Api.retrofitService.getFacilityInfo(facilityId)[0]
-                val facilityHours = Api.retrofitService.getFacilityHours(
-                    facilityId,
-                    DateTime.TODAY,
-                    DateTime.TOMORROW
-                )[0]
-                val menuData = Api.retrofitService.getMenuData(facilityId, DateTime.TODAY)
+                val facilityInfo = async { Api.retrofitService.getFacilityInfo(facilityId)[0] }
+                val howDense = async { Api.retrofitService.getHowDense(facilityId)[0] }
+                val facilityHours = async {
+                    Api.retrofitService.getFacilityHours(
+                        facilityId,
+                        DateTime.TODAY,
+                        DateTime.TOMORROW
+                    )[0]
+                }
+                val weeksMenu =
+                    async {
+                        Api.retrofitService.getMenuData(
+                            facilityId,
+                            DateTime.TODAY
+                        )[0].weeksMenus
+                    }
+
+                _data.value?.apply {
+                    facilityInfo.await().let {
+                        isOpen = it.isOpen
+                        nextOpen = it.nextOpen
+                        closingAt = it.closingAt
+                        campusLocation = it.campusLocation
+                    }
+
+                    howDense.await().let {
+                        density = it.density
+                    }
+
+                    weeksMenu.await().let {
+                        menus = it
+                    }
+
+                    _response.value = this.toString()
+                }
+
             } catch (e: Exception) {
                 _response.value = "Failure ${e.message}"
             }

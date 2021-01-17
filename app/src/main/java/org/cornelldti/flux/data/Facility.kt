@@ -8,12 +8,17 @@ import org.cornelldti.flux.R
 data class Facility(
     val id: String,
     val displayName: String,
+    // facilityInfo
     var dailyHours: List<Pair<Int, Int>> = listOf(),
     var isOpen: Boolean = false,
     var nextOpen: Int = -1,
     var closingAt: Int = -1,
-    var campusLocation: CampusLocation = CampusLocation.CENTRAL,
-    var density: Int = -1
+    var campusLocation: CampusLocation = CampusLocation.UNKNOWN,
+    // howDense
+    var density: Int = -1,
+    // menuData
+    var menus: List<DayMenu> = listOf()
+    // TODO: facilityHours
 ) {
     val densityString: Int
         get() =
@@ -40,7 +45,7 @@ data class Menu(
     val description: String,
     val endTime: Int,
     val startTime: Int,
-    val similarity: Double
+    // val similarity: Double
 )
 
 @Serializable

@@ -18,17 +18,12 @@ class DiningDetailFragment : Fragment() {
     private lateinit var viewModel: DiningDetailViewModel
     private lateinit var viewModelFactory: DiningDetailViewModelFactory
 
+    private lateinit var binding: DiningDetailFragmentBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: DiningDetailFragmentBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.dining_detail_fragment,
-            container,
-            false
-        )
-
         viewModelFactory =
             DiningDetailFragmentArgs.fromBundle(requireArguments()).let {
                 DiningDetailViewModelFactory(
@@ -39,8 +34,15 @@ class DiningDetailFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(DiningDetailViewModel::class.java)
 
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.dining_detail_fragment,
+            container,
+            false
+        )
+
         binding.diningDetailAppbar.title = viewModel.facilityName
-        binding.facilityId.text = viewModel.facilityId
+        binding.diningDetailAppbar.subtitle = viewModel.facilityId
 
         return binding.root
     }
@@ -50,6 +52,10 @@ class DiningDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeAuthState()
+
+        viewModel.response.observe(viewLifecycleOwner, { response ->
+            binding.diningDetailResponse.text = response
+        })
     }
 
     /**
