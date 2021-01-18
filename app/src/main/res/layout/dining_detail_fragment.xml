@@ -98,7 +98,7 @@
                     app:layout_constraintTop_toBottomOf="@id/text_last_updated" />
 
                 <RadioGroup
-                    android:id="@+id/group_days"
+                    android:id="@+id/group_day_chips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -110,61 +110,62 @@
                         android:id="@+id/chip_day1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/chip_day_background"
                         android:button="@null"
                         android:checked="true"
-                        android:text="D1"
+                        android:paddingVertical="10dp"
                         android:textAlignment="center" />
 
                     <RadioButton
                         android:id="@+id/chip_day2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/chip_day_background"
                         android:button="@null"
-                        android:text="D2"
                         android:textAlignment="center" />
 
                     <RadioButton
                         android:id="@+id/chip_day3"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/chip_day_background"
                         android:button="@null"
-                        android:text="D3"
                         android:textAlignment="center" />
 
                     <RadioButton
                         android:id="@+id/chip_day4"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/chip_day_background"
                         android:button="@null"
-                        android:text="D4"
                         android:textAlignment="center" />
 
                     <RadioButton
                         android:id="@+id/chip_day5"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/chip_day_background"
                         android:button="@null"
-                        android:text="D5"
                         android:textAlignment="center" />
 
                     <RadioButton
                         android:id="@+id/chip_day6"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/chip_day_background"
                         android:button="@null"
-                        android:text="D6"
                         android:textAlignment="center" />
 
                     <RadioButton
@@ -174,7 +175,6 @@
                         android:layout_weight="1"
                         android:background="@drawable/chip_day_background"
                         android:button="@null"
-                        android:text="D7"
                         android:textAlignment="center" />
 
                 </RadioGroup>
@@ -183,9 +183,9 @@
                     style="@style/Flux.CardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/group_days">
+                    app:layout_constraintTop_toBottomOf="@id/group_day_chips">
 
                     <LinearLayout
                         android:layout_width="match_parent"

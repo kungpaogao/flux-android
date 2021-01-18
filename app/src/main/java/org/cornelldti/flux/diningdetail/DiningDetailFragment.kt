@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import androidx.core.text.HtmlCompat
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
@@ -13,6 +16,8 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.R
 import org.cornelldti.flux.databinding.DiningDetailFragmentBinding
 import org.cornelldti.flux.network.AuthTokenState
+import org.cornelldti.flux.util.DateTime
+import java.util.*
 
 class DiningDetailFragment : Fragment() {
 
@@ -71,6 +76,19 @@ class DiningDetailFragment : Fragment() {
                 tab.text = it[position].description.toString()
             }.attach()
         })
+
+        val dayChipGroup = binding.groupDayChips
+
+        for (i in 0..6) {
+            val dayChip = dayChipGroup[i] as RadioButton
+            val dateDay =
+                DateTime.getDayAbbrev(DateTime.getOffsetFromToday(i).get(Calendar.DAY_OF_WEEK))
+            val dateNumber = DateTime.getOffsetFromToday(i).get(Calendar.DATE)
+            dayChip.text = HtmlCompat.fromHtml(
+                "${dateDay}<br><br><b>${dateNumber}</b>",
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
+        }
     }
 
     /**
