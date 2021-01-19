@@ -76,6 +76,9 @@ enum class Meal {
 
     @SerialName("Dinner")
     DINNER,
+
+    @SerialName("Open")
+    OPEN
 }
 
 @Serializable
