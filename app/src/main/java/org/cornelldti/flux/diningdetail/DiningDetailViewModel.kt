@@ -26,8 +26,8 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
     val menu: LiveData<List<Menu>>
         get() = _menu
 
-    private val _availability = MutableLiveData<Int>()
-    val availability: LiveData<Int>
+    private val _availability = MutableLiveData<Pair<Int, Int>>()
+    val availability: LiveData<Pair<Int, Int>>
         get() = _availability
 
     /**
@@ -79,7 +79,7 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
 
                     howDense.await().let {
                         density = it.density
-                        _availability.value = densityString
+                        _availability.value = Pair(densityStringResource, densityColorResource)
                     }
 
                     weeksMenus.await().let { menus ->

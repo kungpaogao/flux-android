@@ -1,5 +1,6 @@
 package org.cornelldti.flux.diningdetail
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
@@ -63,8 +65,14 @@ class DiningDetailFragment : Fragment() {
             binding.diningDetailResponse.text = response
         })
 
-        viewModel.availability.observe(viewLifecycleOwner, {
-            binding.textAvailabilityNum.text = getString(it)
+        viewModel.availability.observe(viewLifecycleOwner, { (string, color) ->
+            binding.textAvailabilityNum.text = getString(string)
+            binding.cardAvailability.setCardBackgroundColor(context?.let {
+                ContextCompat.getColor(
+                    it,
+                    color
+                )
+            } ?: Color.TRANSPARENT)
         })
 
         val adapter = MenuMealAdapter(this)
@@ -78,7 +86,6 @@ class DiningDetailFragment : Fragment() {
         })
 
         val dayChipGroup = binding.groupDayChips
-
         for (i in 0..6) {
             val dayChip = dayChipGroup[i] as RadioButton
             val dateDay =

@@ -21,9 +21,9 @@ data class Facility(
     // TODO: facilityHours
 ) {
     /**
-     * Returns string resource ID corresponding to the current density
+     * Returns string resource ID corresponding with current density
      */
-    val densityString: Int
+    val densityStringResource: Int
         get() =
             if (!this.isOpen) {
                 R.string.status_closed
@@ -36,7 +36,22 @@ data class Facility(
             }
 
     /**
-     *
+     * Returns color resource ID corresponding with current density
+     */
+    val densityColorResource: Int
+        get() =
+            if (!this.isOpen) {
+                R.color.flux_grey_light
+            } else when (this.density) {
+                0 -> R.color.flux_green
+                1 -> R.color.flux_yellow
+                2 -> R.color.flux_orange
+                3 -> R.color.flux_red
+                else -> R.color.flux_grey_light
+            }
+
+    /**
+     * TODO: delete this if not used
      * @param date date given in ISO date string format
      */
     fun mealsByDate(date: String): List<Meal> {

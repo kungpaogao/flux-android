@@ -43,7 +43,7 @@ class DiningListAdapter(
             itemListener: FacilityListener,
         ) {
             binding.facilityName.text = item.displayName
-            binding.facilityDensity.text = context.getString(item.densityString)
+            binding.facilityDensity.text = context.getString(item.densityStringResource)
             setPills(item)
 
             itemView.setOnClickListener {
@@ -67,13 +67,7 @@ class DiningListAdapter(
                 )
             }
             if (item.isOpen) {
-                val color = when (item.density) {
-                    0 -> R.color.flux_green
-                    1 -> R.color.flux_yellow
-                    2 -> R.color.flux_orange
-                    3 -> R.color.flux_red
-                    else -> R.color.flux_grey_light
-                }
+                val color = item.densityColorResource
                 pills.slice(0..item.density).map { pill ->
                     pill.setColorFilter(
                         ContextCompat.getColor(
