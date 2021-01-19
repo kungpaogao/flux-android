@@ -26,6 +26,8 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
     val menu: LiveData<List<Menu>>
         get() = _menu
 
+    private var menuFilter: String = DateTime.TODAY
+
     private val _availability = MutableLiveData<Pair<Int, Int>>()
     val availability: LiveData<Pair<Int, Int>>
         get() = _availability
@@ -47,6 +49,20 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
         _data.value = Facility(facilityId, facilityName)
     }
 
+    /**
+     * Sets menu based on selected date
+     *
+     * @param date selected date in ISO date string format
+     */
+    fun setMenuDay(date: String) {
+        menuFilter = date
+        _menu.value = _data.value?.weekMenu?.get(date)
+    }
+
+    /**
+     * Calls Retrofit (network) to get facility info, density, and menu information.
+     * Then, combines responses and sets corresponding data and response.
+     */
     @ExperimentalSerializationApi
     fun getDiningDetail() {
         Log.i(TAG, "Fetching dining list")
@@ -54,13 +70,6 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
             try {
                 val facilityInfo = async { Api.retrofitService.getFacilityInfo(facilityId)[0] }
                 val howDense = async { Api.retrofitService.getHowDense(facilityId)[0] }
-                val facilityHours = async {
-                    Api.retrofitService.getFacilityHours(
-                        facilityId,
-                        DateTime.TODAY,
-                        DateTime.TOMORROW
-                    )[0]
-                }
                 val weeksMenus =
                     async {
                         Api.retrofitService.getMenuData(
@@ -84,7 +93,7 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
 
                     weeksMenus.await().let { menus ->
                         weekMenu = menus.associateBy({ it.date }, { it.menus })
-                        _menu.value = weekMenu[DateTime.TODAY]
+                        _menu.value = weekMenu[menuFilter]
                     }
 
                     _response.value = this.toString()

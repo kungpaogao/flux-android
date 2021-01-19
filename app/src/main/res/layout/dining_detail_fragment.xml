@@ -115,7 +115,8 @@
                         android:button="@null"
                         android:checked="true"
                         android:paddingVertical="10dp"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
 
                     <RadioButton
                         android:id="@+id/chip_day2"
@@ -125,7 +126,8 @@
                         android:layout_weight="1"
                         android:background="@drawable/chip_day_background"
                         android:button="@null"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
 
                     <RadioButton
                         android:id="@+id/chip_day3"
@@ -135,7 +137,8 @@
                         android:layout_weight="1"
                         android:background="@drawable/chip_day_background"
                         android:button="@null"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
 
                     <RadioButton
                         android:id="@+id/chip_day4"
@@ -145,7 +148,8 @@
                         android:layout_weight="1"
                         android:background="@drawable/chip_day_background"
                         android:button="@null"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
 
                     <RadioButton
                         android:id="@+id/chip_day5"
@@ -155,7 +159,8 @@
                         android:layout_weight="1"
                         android:background="@drawable/chip_day_background"
                         android:button="@null"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
 
                     <RadioButton
                         android:id="@+id/chip_day6"
@@ -165,7 +170,8 @@
                         android:layout_weight="1"
                         android:background="@drawable/chip_day_background"
                         android:button="@null"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
 
                     <RadioButton
                         android:id="@+id/chip_day7"
@@ -174,7 +180,8 @@
                         android:layout_weight="1"
                         android:background="@drawable/chip_day_background"
                         android:button="@null"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
 
                 </RadioGroup>
 

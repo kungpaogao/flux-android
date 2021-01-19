@@ -42,15 +42,6 @@ class DiningListViewModel : ViewModel() {
         }
     }
 
-    init {
-        Log.i(TAG, "DiningListViewModel created!")
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.i(TAG, "DiningListViewModel destroyed!")
-    }
-
     /**
      * Sets list filter to given location
      */

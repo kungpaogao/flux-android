@@ -19,6 +19,7 @@ import org.cornelldti.flux.R
 import org.cornelldti.flux.databinding.DiningDetailFragmentBinding
 import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.util.DateTime
+import org.cornelldti.flux.util.toISODateString
 import java.util.*
 
 class DiningDetailFragment : Fragment() {
@@ -27,6 +28,8 @@ class DiningDetailFragment : Fragment() {
     private lateinit var viewModelFactory: DiningDetailViewModelFactory
 
     private lateinit var binding: DiningDetailFragmentBinding
+
+    private lateinit var tabLayoutMediator: TabLayoutMediator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,26 +78,43 @@ class DiningDetailFragment : Fragment() {
             } ?: Color.TRANSPARENT)
         })
 
+        setupDayChips()
+
         val adapter = MenuMealAdapter(this)
         val viewPager = binding.viewpagerMenu
         viewPager.adapter = adapter
-        viewModel.menu.observe(viewLifecycleOwner, {
-            adapter.meals = it
-            TabLayoutMediator(binding.tabsMenuMeal, viewPager) { tab, position ->
-                tab.text = it[position].description.toString()
-            }.attach()
-        })
 
+        viewModel.menu.observe(viewLifecycleOwner, { meals ->
+            // remove previous instance of tabLayoutMediator if it exists
+            if (this::tabLayoutMediator.isInitialized) tabLayoutMediator.detach()
+            adapter.meals = meals
+            tabLayoutMediator =
+                TabLayoutMediator(binding.tabsMenuMeal, viewPager) { tab, position ->
+                    Log.i(TAG, "Setup tab $position")
+                    tab.text = meals[position].description.toString()
+                }
+            tabLayoutMediator.attach()
+        })
+    }
+
+    private fun setupDayChips() {
         val dayChipGroup = binding.groupDayChips
         for (i in 0..6) {
+            val dayCalendar = DateTime.getOffsetFromToday(i)
             val dayChip = dayChipGroup[i] as RadioButton
             val dateDay =
-                DateTime.getDayAbbrev(DateTime.getOffsetFromToday(i).get(Calendar.DAY_OF_WEEK))
-            val dateNumber = DateTime.getOffsetFromToday(i).get(Calendar.DATE)
+                DateTime.getDayAbbrev(dayCalendar.get(Calendar.DAY_OF_WEEK))
+            val dateNumber = dayCalendar.get(Calendar.DATE)
             dayChip.text = HtmlCompat.fromHtml(
                 "${dateDay}<br><br><b>${dateNumber}</b>",
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
+            dayChip.contentDescription = dayCalendar.time.toISODateString()
+        }
+        dayChipGroup.setOnCheckedChangeListener { group, checkedId ->
+            val selected = group.findViewById<RadioButton>(checkedId)
+            Log.i(TAG, "Clicked date ${selected.contentDescription}")
+            viewModel.setMenuDay(selected.contentDescription.toString())
         }
     }
 
