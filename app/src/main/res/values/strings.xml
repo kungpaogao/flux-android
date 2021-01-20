@@ -33,4 +33,7 @@
     <string name="availability">Availability</string>
     <string name="no_menu">No menu items available.</string>
     <string name="refresh">Refresh</string>
+
+    <string name="open_hours">Open from %s to %s</string>
+    <string name="open_times_icon">Open times icon</string>
 </resources>

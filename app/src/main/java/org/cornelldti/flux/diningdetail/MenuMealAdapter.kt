@@ -20,6 +20,10 @@ class MenuMealAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         val fragment = MenuMealFragment()
         fragment.arguments = Bundle().apply {
             putString(MenuMealFragment.ARG_MENU, Json.encodeToString(meals[position]))
+            putLongArray(
+                MenuMealFragment.ARG_HOURS,
+                longArrayOf(meals[position].startTime, meals[position].endTime)
+            )
         }
         return fragment
     }

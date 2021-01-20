@@ -2,10 +2,41 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_menu_items"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/icon_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/open_times_icon"
+            android:src="@drawable/ic_baseline_access_time_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_open_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/flux_grey_dark_extra"
+            app:layout_constraintBottom_toBottomOf="@id/icon_time"
+            app:layout_constraintStart_toEndOf="@id/icon_time"
+            app:layout_constraintTop_toTopOf="@id/icon_time" />
+
+        <!-- no marginTop because first header has paddingTop of 16dp -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_menu_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/icon_time" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

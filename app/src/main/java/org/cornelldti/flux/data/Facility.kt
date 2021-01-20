@@ -91,8 +91,8 @@ data class MenuCategory(
 data class Menu(
     val menu: List<MenuCategory>,
     val description: Meal,
-    val endTime: Int,
-    val startTime: Int,
+    val endTime: Long,
+    val startTime: Long,
     // val similarity: Double
 )
 

@@ -1,11 +1,15 @@
 package org.cornelldti.flux.util
 
+import android.content.Context
+import android.text.format.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 private val ISO_DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 private val ISO_8601_FORMAT = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.US)
 private val DAY_ABBREV_LIST = listOf("Su", "M", "Tu", "W", "Th", "F", "Sa")
+private val TIME_FORMAT_AM_PM = SimpleDateFormat("hh:mm a", Locale.US)
+private val TIME_FORMAT_24 = SimpleDateFormat("HH:mm", Locale.US)
 
 object DateTime {
 
@@ -50,6 +54,16 @@ object DateTime {
      */
     fun getOffsetFromToday(offset: Int): Calendar =
         Calendar.getInstance().apply { add(Calendar.DATE, offset) }
+
+    /**
+     * Wrapper for DateFormat.is24HourFormat to prevent import of `DateFormat`
+     */
+    fun is24HourFormat(context: Context?): Boolean = DateFormat.is24HourFormat(context)
+
+    fun fromMillisToTimeString(millis: Long, context: Context?): String {
+        if (is24HourFormat(context)) return TIME_FORMAT_24.format(Date(millis))
+        else return TIME_FORMAT_AM_PM.format(Date(millis))
+    }
 }
 
 /**
