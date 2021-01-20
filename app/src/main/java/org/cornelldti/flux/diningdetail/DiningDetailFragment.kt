@@ -97,6 +97,9 @@ class DiningDetailFragment : Fragment() {
         })
     }
 
+    /**
+     * Sets text for date chips and adds listener to set menu based on day
+     */
     private fun setupDayChips() {
         val dayChipGroup = binding.groupDayChips
         for (i in 0..6) {

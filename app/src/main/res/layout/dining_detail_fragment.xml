@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".diningdetail.DiningDetailFragment">
@@ -207,19 +208,18 @@
 
                         <TextView
                             android:id="@+id/text_no_menu"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="16dp"
                             android:text="@string/no_menu"
+                            android:textAlignment="center"
                             android:visibility="gone" />
 
                         <androidx.viewpager2.widget.ViewPager2
                             android:id="@+id/viewpager_menu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clipToPadding="false"
-                            android:paddingHorizontal="16dp"
-                            android:paddingBottom="16dp" />
+                            android:clipToPadding="false" />
 
                     </LinearLayout>
 

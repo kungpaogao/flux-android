@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,11 +16,6 @@ import org.cornelldti.flux.data.Facility
 import org.cornelldti.flux.databinding.DiningListFragmentBinding
 import org.cornelldti.flux.network.AuthTokenState
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DiningListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DiningListFragment : Fragment() {
 
     private lateinit var binding: DiningListFragmentBinding
@@ -68,7 +62,6 @@ class DiningListFragment : Fragment() {
      * Handle click of a facility in the facility list RecyclerView
      */
     private fun onFacilityClick(facility: Facility) {
-        Toast.makeText(context, "Clicked: ${facility.id}", Toast.LENGTH_SHORT).show()
         val action =
             DiningListFragmentDirections.actionDiningListFragmentToDiningDetailFragment(
                 facility.id, facility.displayName
