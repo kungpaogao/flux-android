@@ -22,8 +22,8 @@ data class FacilityInfo(
     val id: String,
     val dailyHours: List<DailyHours>,
     val isOpen: Boolean,
-    val nextOpen: Int,
-    val closingAt: Int,
+    val nextOpen: Long,
+    val closingAt: Long,
     val campusLocation: CampusLocation,
 )
 

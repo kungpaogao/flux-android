@@ -11,8 +11,8 @@ data class Facility(
     // facilityInfo
     var dailyHours: List<Pair<Int, Int>> = listOf(),
     var isOpen: Boolean = false,
-    var nextOpen: Int = -1,
-    var closingAt: Int = -1,
+    var nextOpen: Long = -1L,
+    var closingAt: Long = -1L,
     var campusLocation: CampusLocation = CampusLocation.UNKNOWN,
     // howDense
     var density: Int = -1,

@@ -8,6 +8,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.data.*
 import org.cornelldti.flux.network.Api
 import org.cornelldti.flux.network.AuthTokenState
+import org.cornelldti.flux.network.FacilityInfo
 import org.cornelldti.flux.network.FirebaseTokenLiveData
 import org.cornelldti.flux.util.DateTime
 import java.lang.Exception
@@ -19,8 +20,10 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
         get() = _response
 
     private val _data = MutableLiveData<Facility>()
-    val data: LiveData<Facility>
-        get() = _data
+
+    private val _info = MutableLiveData<FacilityInfo>()
+    val info: LiveData<FacilityInfo>
+        get() = _info
 
     private val _menu = MutableLiveData<List<Menu>>()
     val menu: LiveData<List<Menu>>
@@ -80,6 +83,8 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
 
                 _data.value?.apply {
                     facilityInfo.await().let {
+                        _info.value = it
+                        // TODO: delete since don't really need to set info
                         isOpen = it.isOpen
                         nextOpen = it.nextOpen
                         closingAt = it.closingAt

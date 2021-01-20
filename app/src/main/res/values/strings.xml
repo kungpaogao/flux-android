@@ -36,4 +36,8 @@
 
     <string name="open_hours">Open from %s to %s</string>
     <string name="open_times_icon">Open times icon</string>
+
+    <string name="closing_at">&lt;span style="color:#5AD993;">Open&lt;/span> until %s</string>
+    <string name="next_open">&lt;span style="color:#FA4735;">Closed&lt;/span> \u2022 opens at %s</string>
+    <string name="closed_red"><font color="#FA4735">Closed</font></string>
 </resources>

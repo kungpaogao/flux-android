@@ -53,7 +53,6 @@ class DiningDetailFragment : Fragment() {
         )
 
         binding.diningDetailAppbar.title = viewModel.facilityName
-        binding.diningDetailAppbar.subtitle = viewModel.facilityId
 
         return binding.root
     }
@@ -64,8 +63,29 @@ class DiningDetailFragment : Fragment() {
 
         observeAuthState()
 
-        viewModel.response.observe(viewLifecycleOwner, { response ->
-            binding.diningDetailResponse.text = response
+        viewModel.info.observe(viewLifecycleOwner, { info ->
+            // TODO: handle case where closingAt and/or nextOpen is -1L
+            when {
+                info.isOpen -> {
+                    val closingAt =
+                        DateTime.fromMillisToTimeString(info.closingAt.times(1000), context)
+                    binding.diningDetailAppbar.subtitle = HtmlCompat.fromHtml(
+                        getString(R.string.closing_at, closingAt),
+                        HtmlCompat.FROM_HTML_MODE_LEGACY
+                    )
+                }
+                info.nextOpen == -1L -> {
+                    binding.diningDetailAppbar.subtitle = getText(R.string.closed_red)
+                }
+                else -> {
+                    val nextOpen =
+                        DateTime.fromMillisToTimeString(info.nextOpen.times(1000), context)
+                    binding.diningDetailAppbar.subtitle = HtmlCompat.fromHtml(
+                        getString(R.string.next_open, nextOpen),
+                        HtmlCompat.FROM_HTML_MODE_LEGACY
+                    )
+                }
+            }
         })
 
         viewModel.availability.observe(viewLifecycleOwner, { (string, color) ->
