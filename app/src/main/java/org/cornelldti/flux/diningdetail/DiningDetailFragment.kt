@@ -21,6 +21,7 @@ import org.cornelldti.flux.databinding.DiningDetailFragmentBinding
 import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.util.DateTime
 import org.cornelldti.flux.util.toISODateString
+import org.cornelldti.flux.util.toTimeString
 import java.util.*
 
 class DiningDetailFragment : Fragment() {
@@ -65,17 +66,35 @@ class DiningDetailFragment : Fragment() {
         observeAuthState()
 
         /**
-         * Set navigate up action for app bar
+         * Set navigate up actions for app bar
          */
         binding.diningDetailAppbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
 
+        binding.diningDetailAppbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.dining_detail_refresh -> {
+                    // refresh info by fetching data again
+                    viewModel.getDiningDetail()
+                    true
+                }
+                else -> false
+            }
+        }
+
+        /**
+         * Observe last updated datetime to set last updated text
+         */
+        viewModel.lastUpdated.observe(viewLifecycleOwner, { date ->
+            binding.textLastUpdated.text =
+                getString(R.string.last_updated, date.toTimeString(context))
+        })
+
         /**
          * Observe facility info to set hours in app bar subtitle
          */
         viewModel.info.observe(viewLifecycleOwner, { info ->
-            // TODO: handle case where closingAt and/or nextOpen is -1L
             binding.diningDetailAppbar.subtitle = when {
                 info.isOpen -> {
                     val closingAt =

@@ -12,12 +12,10 @@ import org.cornelldti.flux.network.FacilityInfo
 import org.cornelldti.flux.network.FirebaseTokenLiveData
 import org.cornelldti.flux.util.DateTime
 import java.lang.Exception
+import java.util.*
 
-class DiningDetailViewModel(val facilityId: String, val facilityName: String) : ViewModel() {
-
-    private val _response = MutableLiveData<String>()
-    val response: LiveData<String>
-        get() = _response
+class DiningDetailViewModel(private val facilityId: String, val facilityName: String) :
+    ViewModel() {
 
     private val _data = MutableLiveData<Facility>()
 
@@ -34,6 +32,11 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
     private val _availability = MutableLiveData<Pair<Int, Int>>()
     val availability: LiveData<Pair<Int, Int>>
         get() = _availability
+
+    private val _lastUpdated = MutableLiveData<Date>()
+    val lastUpdated: LiveData<Date>
+        get() = _lastUpdated
+
 
     /**
      * LiveData container that maps the token to token state
@@ -100,12 +103,12 @@ class DiningDetailViewModel(val facilityId: String, val facilityName: String) : 
                         weekMenu = menus.associateBy({ it.date }, { it.menus })
                         _menu.value = weekMenu[menuFilter]
                     }
-
-                    _response.value = this.toString()
                 }
 
+                _lastUpdated.value = DateTime.NOW
+
             } catch (e: Exception) {
-                _response.value = "Failure ${e.message}"
+                Log.w(TAG, "getDiningDetail: Failure ${e.message}")
             }
         }
     }

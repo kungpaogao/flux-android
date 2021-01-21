@@ -21,10 +21,16 @@ object DateTime {
     fun getDayAbbrev(dayOfWeek: Int) = DAY_ABBREV_LIST[dayOfWeek - 1]
 
     /**
+     * Current time as Date object
+     */
+    val NOW: Date
+        get() = Calendar.getInstance().time
+
+    /**
      * Today's date in ISO date string format
      */
     val TODAY: String
-        get() = Calendar.getInstance().time.toISODateString()
+        get() = NOW.toISODateString()
 
     /**
      * Tomorrow's date in ISO date string format
@@ -60,24 +66,30 @@ object DateTime {
      */
     fun is24HourFormat(context: Context?): Boolean = DateFormat.is24HourFormat(context)
 
-    fun fromMillisToTimeString(millis: Long, context: Context?): String {
-        if (is24HourFormat(context)) return TIME_FORMAT_24.format(Date(millis))
-        else return TIME_FORMAT_AM_PM.format(Date(millis))
-    }
+    /**
+     * Converts time in milliseconds to time formatted according to user preferences
+     */
+    fun fromMillisToTimeString(millis: Long, context: Context?): String =
+        if (is24HourFormat(context)) TIME_FORMAT_24.format(Date(millis))
+        else TIME_FORMAT_AM_PM.format(Date(millis))
+
 }
 
 /**
  * Extension function to convert Date objects to ISO date strings
  */
-fun Date.toISODateString(): String {
-    return ISO_DATE_FORMAT.format(this)
-}
+fun Date.toISODateString(): String = ISO_DATE_FORMAT.format(this)
+
+/**
+ * Extension function to convert Date objects to time strings according to user time preferences
+ */
+fun Date.toTimeString(context: Context?): String =
+    if (DateTime.is24HourFormat(context)) TIME_FORMAT_24.format(this)
+    else TIME_FORMAT_AM_PM.format(this)
 
 /**
  * Extension function to convert Date objects to ISO 8601 strings
  *
  * See more information here: [https://en.wikipedia.org/wiki/ISO_8601]
  */
-fun Date.toISOString(): String {
-    return ISO_8601_FORMAT.format(this)
-}
+fun Date.toISOString(): String = ISO_8601_FORMAT.format(this)

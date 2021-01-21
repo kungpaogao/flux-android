@@ -40,4 +40,6 @@
     <string name="closing_at">&lt;span style="color:#5AD993;">Open&lt;/span> until %s</string>
     <string name="next_open">&lt;span style="color:#FA4735;">Closed&lt;/span> \u2022 opens at %s</string>
     <string name="closed_red"><font color="#FA4735">Closed</font></string>
+    <string name="last_updated">Last updated at %s</string>
+
 </resources>
