@@ -11,6 +11,8 @@ import android.widget.RadioButton
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.get
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -147,15 +149,24 @@ class DiningDetailFragment : Fragment() {
         viewPager.adapter = adapter
 
         viewModel.menu.observe(viewLifecycleOwner, { meals ->
-            // remove previous instance of tabLayoutMediator if it exists
-            if (this::tabLayoutMediator.isInitialized) tabLayoutMediator.detach()
-            adapter.meals = meals
-            tabLayoutMediator =
-                TabLayoutMediator(binding.tabsMenuMeal, viewPager) { tab, position ->
-                    Log.i(TAG, "Setup tab $position")
-                    tab.text = meals[position].description.toString()
-                }
-            tabLayoutMediator.attach()
+            if (meals.isEmpty()) {
+                binding.tabsMenuMeal.isGone = true
+                binding.viewpagerMenu.isGone = true
+                binding.textNoMenu.isVisible = true
+            } else {
+                binding.tabsMenuMeal.isVisible = true
+                binding.viewpagerMenu.isVisible = true
+                binding.textNoMenu.isGone = true
+                // remove previous instance of tabLayoutMediator if it exists
+                if (this::tabLayoutMediator.isInitialized) tabLayoutMediator.detach()
+                adapter.meals = meals
+                tabLayoutMediator =
+                    TabLayoutMediator(binding.tabsMenuMeal, viewPager) { tab, position ->
+                        Log.i(TAG, "Setup tab $position")
+                        tab.text = meals[position].description.toString()
+                    }
+                tabLayoutMediator.attach()
+            }
         })
     }
 
