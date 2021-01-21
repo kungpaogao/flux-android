@@ -13,6 +13,7 @@ import androidx.core.text.HtmlCompat
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.R
@@ -63,24 +64,34 @@ class DiningDetailFragment : Fragment() {
 
         observeAuthState()
 
+        /**
+         * Set navigate up action for app bar
+         */
+        binding.diningDetailAppbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        /**
+         * Observe facility info to set hours in app bar subtitle
+         */
         viewModel.info.observe(viewLifecycleOwner, { info ->
             // TODO: handle case where closingAt and/or nextOpen is -1L
-            when {
+            binding.diningDetailAppbar.subtitle = when {
                 info.isOpen -> {
                     val closingAt =
                         DateTime.fromMillisToTimeString(info.closingAt.times(1000), context)
-                    binding.diningDetailAppbar.subtitle = HtmlCompat.fromHtml(
+                    HtmlCompat.fromHtml(
                         getString(R.string.closing_at, closingAt),
                         HtmlCompat.FROM_HTML_MODE_LEGACY
                     )
                 }
                 info.nextOpen == -1L -> {
-                    binding.diningDetailAppbar.subtitle = getText(R.string.closed_red)
+                    getText(R.string.closed_red)
                 }
                 else -> {
                     val nextOpen =
                         DateTime.fromMillisToTimeString(info.nextOpen.times(1000), context)
-                    binding.diningDetailAppbar.subtitle = HtmlCompat.fromHtml(
+                    HtmlCompat.fromHtml(
                         getString(R.string.next_open, nextOpen),
                         HtmlCompat.FROM_HTML_MODE_LEGACY
                     )
@@ -88,18 +99,30 @@ class DiningDetailFragment : Fragment() {
             }
         })
 
-        viewModel.availability.observe(viewLifecycleOwner, { (string, color) ->
-            binding.textAvailabilityNum.text = getString(string)
-            binding.cardAvailability.setCardBackgroundColor(context?.let {
-                ContextCompat.getColor(
-                    it,
-                    color
-                )
-            } ?: Color.TRANSPARENT)
-        })
+        /**
+         * Observe availability data to set information in availability card
+         */
+        viewModel.availability.observe(
+            viewLifecycleOwner,
+            { (string, color) ->
+                binding.textAvailabilityNum.text = getString(string)
+                binding.cardAvailability.setCardBackgroundColor(context?.let {
+                    ContextCompat.getColor(
+                        it,
+                        color
+                    )
+                } ?: Color.TRANSPARENT)
+            })
 
         setupDayChips()
 
+        setupMenus()
+    }
+
+    /**
+     * Sets ViewPager adapter and observes menus to set meal tabs and adapter data
+     */
+    private fun setupMenus() {
         val adapter = MenuMealAdapter(this)
         val viewPager = binding.viewpagerMenu
         viewPager.adapter = adapter
