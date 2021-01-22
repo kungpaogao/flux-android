@@ -96,7 +96,8 @@
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
                     android:padding="16dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/dining_list_item" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

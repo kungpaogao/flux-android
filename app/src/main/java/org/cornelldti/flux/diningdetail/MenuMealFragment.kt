@@ -50,6 +50,11 @@ class MenuMealFragment() : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.root.requestLayout()
+    }
+
     companion object {
         const val TAG = "MenuMealFragment"
         const val ARG_MENU = "menu"

@@ -25,7 +25,7 @@
             android:lineSpacingExtra="2dp"
             android:textColor="@color/flux_grey_dark"
             android:textSize="16sp"
-            tools:text="Item name\nhi" />
+            tools:text="Item 1\nItem 2\nItem 3" />
 
     </LinearLayout>
 
