@@ -32,18 +32,6 @@ class DiningListFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.dining_list_fragment, container, false)
 
-        val adapter = DiningListAdapter(FacilityListener { facility ->
-            onFacilityClick(facility)
-        })
-
-        binding.diningList.adapter = adapter
-
-        viewModel.data.observe(
-            viewLifecycleOwner,
-            {
-                adapter.data = it
-            })
-
         return binding.root
     }
 
@@ -53,9 +41,29 @@ class DiningListFragment : Fragment() {
 
         observeAuthState()
 
-        viewModel.response.observe(viewLifecycleOwner, { binding.responseText.text = it })
+        /**
+         * set list adapter and observe changes
+         */
+        val adapter = DiningListAdapter(FacilityListener { facility ->
+            onFacilityClick(facility)
+        })
+        binding.diningList.adapter = adapter
+
+        viewModel.data.observe(
+            viewLifecycleOwner,
+            {
+                adapter.data = it
+            })
 
         setChipListener()
+
+        binding.diningListAppbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.dining_list_search -> TODO()
+                R.id.dining_list_sort -> TODO()
+                else -> TODO()
+            }
+        }
     }
 
     /**
@@ -69,6 +77,10 @@ class DiningListFragment : Fragment() {
         this.findNavController().navigate(action)
     }
 
+    /**
+     * Set listeners for location filter chips
+     * TODO: remove listener on destroy
+     */
     private fun setChipListener() {
         binding.diningListFilter.check(R.id.chip_filter_all)
         binding.diningListFilter.setOnCheckedChangeListener { _, isChecked ->
