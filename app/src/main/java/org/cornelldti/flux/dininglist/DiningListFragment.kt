@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.R
 import org.cornelldti.flux.data.CampusLocation
 import org.cornelldti.flux.data.Facility
+import org.cornelldti.flux.data.Loading
 import org.cornelldti.flux.databinding.DiningListFragmentBinding
 import org.cornelldti.flux.network.AuthTokenState
 
@@ -64,6 +66,33 @@ class DiningListFragment : Fragment() {
                 else -> TODO()
             }
         }
+
+        binding.diningListRefresh.setOnRefreshListener {
+            viewModel.getDiningList()
+        }
+
+        viewModel.loadingStatus.observe(viewLifecycleOwner, {
+            when (it) {
+                Loading.SUCCESS -> {
+                    Snackbar.make(
+                        binding.diningListRefresh,
+                        "List is up to date.",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    binding.diningListRefresh.isRefreshing = false
+                }
+                Loading.ERROR -> {
+                    Snackbar.make(
+                        binding.diningListRefresh,
+                        "Error updating data.",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    binding.diningListRefresh.isRefreshing = false
+                }
+                Loading.IN_PROGRESS -> binding.diningListRefresh.isRefreshing = true
+                else -> binding.diningListRefresh.isRefreshing = false
+            }
+        })
     }
 
     /**

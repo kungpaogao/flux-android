@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.data.CampusLocation
 import org.cornelldti.flux.data.Facility
+import org.cornelldti.flux.data.Loading
 import org.cornelldti.flux.network.Api
 import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.network.FirebaseTokenLiveData
@@ -42,6 +43,11 @@ class DiningListViewModel : ViewModel() {
         }
     }
 
+    private val _loadingStatus = MutableLiveData<Loading>()
+    val loadingStatus: LiveData<Loading>
+        get() = _loadingStatus
+
+
     /**
      * Sets list filter to given location
      */
@@ -64,6 +70,9 @@ class DiningListViewModel : ViewModel() {
     fun getDiningList() {
         Log.i(TAG, "Fetching dining list")
         viewModelScope.launch {
+            // set loading state
+            _loadingStatus.value = Loading.IN_PROGRESS
+
             try {
                 // make requests
                 val facilityList = async { Api.retrofitService.getFacilityList() }
@@ -89,9 +98,10 @@ class DiningListViewModel : ViewModel() {
                 }
 
                 _data.value = facilityList.await()
-                _response.value = _data.value.toString()
+                _loadingStatus.value = Loading.SUCCESS
             } catch (e: Exception) {
-                _response.value = "Failure: ${e.message}"
+                Log.w(TAG, "getDiningList error: ${e.message}")
+                _loadingStatus.value = Loading.ERROR
             }
         }
     }

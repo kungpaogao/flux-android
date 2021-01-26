@@ -81,5 +81,7 @@ dependencies {
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     // serialization
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
+    // swipe refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }
 

@@ -28,6 +28,11 @@ private val retrofit =
         .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
         .build()
 
+/**
+ * Flux Retrofit API service to handle all network calls
+ * TODO: handle errors such as no network (which implies no network token)
+ *  might need to consult [HeaderInterceptor]
+ */
 interface ApiService {
     @GET(FACILITY_LIST)
     suspend fun getFacilityList(): List<Facility>
