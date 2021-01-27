@@ -2,10 +2,9 @@ package org.cornelldti.flux.dininglist
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -59,13 +58,7 @@ class DiningListFragment : Fragment() {
 
         setChipListener()
 
-        binding.diningListAppbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.dining_list_search -> TODO()
-                R.id.dining_list_sort -> TODO()
-                else -> TODO()
-            }
-        }
+        setAppBarActionListener()
 
         binding.diningListRefresh.setOnRefreshListener {
             viewModel.getDiningList()
@@ -95,6 +88,44 @@ class DiningListFragment : Fragment() {
         })
     }
 
+    private fun setAppBarActionListener() {
+
+        binding.diningListAppbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.dining_list_search -> {
+                    menuItem.expandActionView()
+                    val searchView = menuItem.actionView as SearchView
+                    searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                        override fun onQueryTextSubmit(query: String): Boolean {
+                            return onQueryTextChange(query)
+                        }
+
+                        override fun onQueryTextChange(query: String): Boolean {
+                            viewModel.updateSearchQuery(query)
+                            return false
+                        }
+                    })
+                    menuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+                        override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                            binding.diningListRefresh.isEnabled = false
+                            binding.diningListLayoutAppbar.setExpanded(false)
+                            return true
+                        }
+
+                        override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                            binding.diningListRefresh.isEnabled = true
+                            binding.diningListLayoutAppbar.setExpanded(true)
+                            return true
+                        }
+                    })
+                    false
+                }
+                R.id.dining_list_sort -> TODO()
+                else -> TODO()
+            }
+        }
+    }
+
     /**
      * Handle click of a facility in the facility list RecyclerView
      */
@@ -108,7 +139,7 @@ class DiningListFragment : Fragment() {
 
     /**
      * Set listeners for location filter chips
-     * TODO: remove listener on destroy
+     * TODO: remove listener on destroy?
      */
     private fun setChipListener() {
         binding.diningListFilter.check(R.id.chip_filter_all)

@@ -9,6 +9,7 @@
         tools:context=".dininglist.DiningListFragment">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/dining_list_layout_appbar"
             android:layout_width="match_parent"
             android:layout_height="192dp"
             app:liftOnScroll="true">

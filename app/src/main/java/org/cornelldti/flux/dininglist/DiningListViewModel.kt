@@ -12,6 +12,7 @@ import org.cornelldti.flux.network.Api
 import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.network.FirebaseTokenLiveData
 import java.lang.Exception
+import java.util.*
 
 class DiningListViewModel : ViewModel() {
     private val _data = MutableLiveData<List<Facility>>()
@@ -22,11 +23,15 @@ class DiningListViewModel : ViewModel() {
     val data: LiveData<List<Facility>>
         get() = _data.map { list ->
             list.filter { facility ->
-                filter == facility.campusLocation || filter == null
+                locationFilter == facility.campusLocation || locationFilter == null
+            }.filter { facility ->
+                facility.displayName.toLowerCase(Locale.US)
+                    .contains(queryFilter ?: "")
             }
         }
 
-    private var filter: CampusLocation? = null
+    private var locationFilter: CampusLocation? = null
+    private var queryFilter: String? = null
 
     private val _response = MutableLiveData<String>()
     val response: LiveData<String>
@@ -54,10 +59,17 @@ class DiningListViewModel : ViewModel() {
     fun updateLocationFilter(location: CampusLocation?) {
         // check null to make sure that we don't attempt `Transformations.map` on null LiveData
         if (_data.value != null) {
-            filter = location
+            locationFilter = location
             /* TODO: think of better way of force refreshing data;
                 maybe, make filter LiveData so that `data` can observe both `_data` and `filter`
              */
+            _data.value = _data.value
+        }
+    }
+
+    fun updateSearchQuery(query: String) {
+        if (_data.value != null) {
+            queryFilter = query.toLowerCase(Locale.US)
             _data.value = _data.value
         }
     }
