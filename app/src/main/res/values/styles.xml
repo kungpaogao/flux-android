@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorOnPrimary">@color/flux_grey_dark_extra</item>
+        <item name="searchViewStyle">@style/Flux.SearchViewStyle</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -43,4 +44,9 @@
         <item name="cardCornerRadius">8dp</item>
     </style>
 
+    <style name="Flux.SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="queryBackground">@android:color/transparent</item>
+        <item name="queryHint">@string/search_hint</item>
+        <item name="searchHintIcon">@null</item>
+    </style>
 </resources>
