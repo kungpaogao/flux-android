@@ -3,6 +3,7 @@ package org.cornelldti.flux.dininglist
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
@@ -13,7 +14,8 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.R
 import org.cornelldti.flux.data.CampusLocation
 import org.cornelldti.flux.data.Facility
-import org.cornelldti.flux.data.Loading
+import org.cornelldti.flux.data.LoadingStatus
+import org.cornelldti.flux.data.SortOrder
 import org.cornelldti.flux.databinding.DiningListFragmentBinding
 import org.cornelldti.flux.network.AuthTokenState
 
@@ -66,7 +68,8 @@ class DiningListFragment : Fragment() {
 
         viewModel.loadingStatus.observe(viewLifecycleOwner, {
             when (it) {
-                Loading.SUCCESS -> {
+                LoadingStatus.SUCCESS -> {
+                    // TODO: don't show on first load
                     Snackbar.make(
                         binding.diningListRefresh,
                         "List is up to date.",
@@ -74,7 +77,7 @@ class DiningListFragment : Fragment() {
                     ).show()
                     binding.diningListRefresh.isRefreshing = false
                 }
-                Loading.ERROR -> {
+                LoadingStatus.ERROR -> {
                     Snackbar.make(
                         binding.diningListRefresh,
                         "Error updating data.",
@@ -82,12 +85,15 @@ class DiningListFragment : Fragment() {
                     ).show()
                     binding.diningListRefresh.isRefreshing = false
                 }
-                Loading.IN_PROGRESS -> binding.diningListRefresh.isRefreshing = true
+                LoadingStatus.IN_PROGRESS -> binding.diningListRefresh.isRefreshing = true
                 else -> binding.diningListRefresh.isRefreshing = false
             }
         })
     }
 
+    /**
+     * Sets listener for dining list app bar actions: search and sort
+     */
     private fun setAppBarActionListener() {
 
         binding.diningListAppbar.setOnMenuItemClickListener { menuItem ->
@@ -120,8 +126,15 @@ class DiningListFragment : Fragment() {
                     })
                     false
                 }
-                R.id.dining_list_sort -> TODO()
-                else -> TODO()
+                R.id.dining_list_sort_alpha -> {
+                    viewModel.updateSortFilter(SortOrder.ALPHABETICAL)
+                    false
+                }
+                R.id.dining_list_sort_crowd -> {
+                    viewModel.updateSortFilter(SortOrder.CROWDEDNESS)
+                    false
+                }
+                else -> false
             }
         }
     }

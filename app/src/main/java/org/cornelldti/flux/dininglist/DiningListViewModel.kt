@@ -7,12 +7,14 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.data.CampusLocation
 import org.cornelldti.flux.data.Facility
-import org.cornelldti.flux.data.Loading
+import org.cornelldti.flux.data.LoadingStatus
+import org.cornelldti.flux.data.SortOrder
 import org.cornelldti.flux.network.Api
 import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.network.FirebaseTokenLiveData
 import java.lang.Exception
 import java.util.*
+import kotlin.Comparator
 
 class DiningListViewModel : ViewModel() {
     private val _data = MutableLiveData<List<Facility>>()
@@ -27,11 +29,15 @@ class DiningListViewModel : ViewModel() {
             }.filter { facility ->
                 facility.displayName.toLowerCase(Locale.US)
                     .contains(queryFilter ?: "")
-            }
+            }.sortedWith(sortOrderFilter)
         }
 
     private var locationFilter: CampusLocation? = null
     private var queryFilter: String? = null
+
+    // default sort order is by crowdedness, then display name
+    private var sortOrderFilter: Comparator<Facility> =
+        compareBy({ it.density }, { it.displayName })
 
     private val _response = MutableLiveData<String>()
     val response: LiveData<String>
@@ -48,30 +54,47 @@ class DiningListViewModel : ViewModel() {
         }
     }
 
-    private val _loadingStatus = MutableLiveData<Loading>()
-    val loadingStatus: LiveData<Loading>
+    private val _loadingStatus = MutableLiveData<LoadingStatus>()
+    val loadingStatus: LiveData<LoadingStatus>
         get() = _loadingStatus
 
-
     /**
-     * Sets list filter to given location
+     * Refreshes data value to reapply filters
      */
-    fun updateLocationFilter(location: CampusLocation?) {
+    private fun refreshData() {
+        /* TODO: think of better way of force refreshing data;
+            maybe, make filter LiveData so that `data` can observe both `_data` and `filter`
+         */
         // check null to make sure that we don't attempt `Transformations.map` on null LiveData
-        if (_data.value != null) {
-            locationFilter = location
-            /* TODO: think of better way of force refreshing data;
-                maybe, make filter LiveData so that `data` can observe both `_data` and `filter`
-             */
-            _data.value = _data.value
-        }
+        if (_data.value != null) _data.value = _data.value
     }
 
+    /**
+     * Updates list filter to given location and refreshes dining list data
+     */
+    fun updateLocationFilter(location: CampusLocation?) {
+        locationFilter = location
+        refreshData()
+    }
+
+    /**
+     * Updates search filter to given query and refreshes dining list data
+     */
     fun updateSearchQuery(query: String) {
-        if (_data.value != null) {
-            queryFilter = query.toLowerCase(Locale.US)
-            _data.value = _data.value
+        queryFilter = query.toLowerCase(Locale.US)
+        refreshData()
+    }
+
+    /**
+     * Updates sort filter with given [SortOrder] and refreshes dining list data
+     */
+    fun updateSortFilter(sortOrder: SortOrder) {
+        sortOrderFilter = when (sortOrder) {
+            SortOrder.ALPHABETICAL -> compareBy { it.displayName }
+            SortOrder.CROWDEDNESS -> compareBy({ it.density }, { it.displayName })
+            SortOrder.LOCATION -> compareBy()
         }
+        refreshData()
     }
 
     /**
@@ -83,7 +106,7 @@ class DiningListViewModel : ViewModel() {
         Log.i(TAG, "Fetching dining list")
         viewModelScope.launch {
             // set loading state
-            _loadingStatus.value = Loading.IN_PROGRESS
+            _loadingStatus.value = LoadingStatus.IN_PROGRESS
 
             try {
                 // make requests
@@ -110,10 +133,10 @@ class DiningListViewModel : ViewModel() {
                 }
 
                 _data.value = facilityList.await()
-                _loadingStatus.value = Loading.SUCCESS
+                _loadingStatus.value = LoadingStatus.SUCCESS
             } catch (e: Exception) {
                 Log.w(TAG, "getDiningList error: ${e.message}")
-                _loadingStatus.value = Loading.ERROR
+                _loadingStatus.value = LoadingStatus.ERROR
             }
         }
     }

@@ -29,7 +29,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/colorPrimary"
                     app:layout_collapseMode="pin"
-                    app:menu="@menu/menu_dining_list"
+                    app:menu="@menu/menu_dining_list_actions"
                     app:title="@string/places" />
 
                 <com.google.android.material.chip.ChipGroup

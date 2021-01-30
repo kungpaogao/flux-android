@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Flux Android</string>
+    <string name="app_name">Flux</string>
     <string name="action_settings">Settings</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -22,25 +23,33 @@
     <string name="item_third_pill">Third pill</string>
     <string name="item_fourth_pill">Fourth pill</string>
 
+    <!-- Search strings and place filters -->
     <string name="search">Search</string>
+    <string name="search_hint">Search Flux</string>
     <string name="places">Places</string>
     <string name="central">Central</string>
     <string name="west">West</string>
     <string name="north">North</string>
     <string name="all">All</string>
 
+    <!-- Dining detail headers -->
     <string name="menu">Menu</string>
     <string name="availability">Availability</string>
-    <string name="no_menu">Closed, no menu items available :(</string>
+
+    <!-- Dining detail -->
     <string name="refresh">Refresh</string>
-
-    <string name="open_hours">Open from %s to %s</string>
-    <string name="open_times_icon">Open times icon</string>
-
     <string name="closing_at">&lt;span style="color:#5AD993;">Open&lt;/span> until %s</string>
     <string name="next_open">&lt;span style="color:#FA4735;">Closed&lt;/span> \u2022 opens at %s</string>
     <string name="closed_red"><font color="#FA4735">Closed</font></string>
     <string name="last_updated">Last updated at %s</string>
-    <string name="search_hint">Search Flux</string>
+    <string name="no_menu">Closed, no menu items available :(</string>
+    <string name="open_times_icon">Open times icon</string>
+    <string name="open_hours">Open from %s to %s</string>
+
+    <!-- Dining list sort menu -->
+    <string name="sort_by">Sort by…</string>
+    <string name="sort_alpha">Alphabetical</string>
+    <string name="sort_crowd">Crowdedness</string>
+    <string name="sort_location">Location</string>
 
 </resources>
