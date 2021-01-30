@@ -3,7 +3,6 @@ package org.cornelldti.flux.dininglist
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
@@ -18,6 +17,7 @@ import org.cornelldti.flux.data.LoadingStatus
 import org.cornelldti.flux.data.SortOrder
 import org.cornelldti.flux.databinding.DiningListFragmentBinding
 import org.cornelldti.flux.network.AuthTokenState
+import org.cornelldti.flux.util.getAttr
 
 class DiningListFragment : Fragment() {
 
@@ -113,12 +113,16 @@ class DiningListFragment : Fragment() {
                     })
                     menuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
                         override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                            binding.diningListLayoutAppbar.layoutParams.height =
+                                getAttr(R.attr.actionBarSize) * 2
                             binding.diningListRefresh.isEnabled = false
                             binding.diningListLayoutAppbar.setExpanded(false)
                             return true
                         }
 
                         override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                            binding.diningListLayoutAppbar.layoutParams.height =
+                                resources.getDimensionPixelSize(R.dimen.app_bar_layout_large)
                             binding.diningListRefresh.isEnabled = true
                             binding.diningListLayoutAppbar.setExpanded(true)
                             return true

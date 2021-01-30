@@ -1,3 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="app_bar_layout_large">192dp</dimen>
+    <dimen name="app_bar_layout_medium">192dp</dimen>
 </resources>
