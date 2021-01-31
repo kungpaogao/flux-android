@@ -19,7 +19,7 @@ data class Facility(
     // menuData
     var weekMenu: Map<String, List<Menu>> = mapOf()
     // TODO: facilityHours
-) {
+) : Comparable<Facility> {
     /**
      * Returns string resource ID corresponding with current density
      */
@@ -57,6 +57,25 @@ data class Facility(
     fun mealsByDate(date: String): List<Meal> {
         val dayMenus = weekMenu[date]
         return dayMenus?.map { it.description } ?: listOf()
+    }
+
+    /**
+     * Defines default sort behavior for facilities. Sorts based on lowest density, then by name.
+     */
+    override fun compareTo(other: Facility): Int {
+        return if (this.isOpen xor other.isOpen) {
+            // one is open and the other is not
+            if (this.isOpen) -1 else 1
+        } else {
+            // both are closed or both are open
+            var density = 0
+            if (this.isOpen) {
+                // if open -> choose less empty
+                density = this.density.compareTo(other.density)
+            }
+            // sort by name if tied or both closed
+            if (density == 0) this.displayName.compareTo(other.displayName) else density
+        }
     }
 }
 

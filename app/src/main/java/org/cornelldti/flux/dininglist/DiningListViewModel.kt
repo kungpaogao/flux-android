@@ -37,7 +37,7 @@ class DiningListViewModel : ViewModel() {
 
     // default sort order is by crowdedness, then display name
     private var sortOrderFilter: Comparator<Facility> =
-        compareBy({ it.density }, { it.displayName })
+        compareBy { it }
 
     private val _response = MutableLiveData<String>()
     val response: LiveData<String>
@@ -91,7 +91,7 @@ class DiningListViewModel : ViewModel() {
     fun updateSortFilter(sortOrder: SortOrder) {
         sortOrderFilter = when (sortOrder) {
             SortOrder.ALPHABETICAL -> compareBy { it.displayName }
-            SortOrder.CROWDEDNESS -> compareBy({ it.density }, { it.displayName })
+            SortOrder.CROWDEDNESS -> compareBy { it }
             SortOrder.LOCATION -> compareBy()
         }
         refreshData()
