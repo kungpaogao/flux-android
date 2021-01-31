@@ -39,10 +39,6 @@ class DiningListViewModel : ViewModel() {
     private var sortOrderFilter: Comparator<Facility> =
         compareBy { it }
 
-    private val _response = MutableLiveData<String>()
-    val response: LiveData<String>
-        get() = _response
-
     /**
      * LiveData container that maps the token to token state
      */
