@@ -37,6 +37,9 @@ class DiningDetailViewModel(private val facilityId: String, val facilityName: St
     val lastUpdated: LiveData<Date>
         get() = _lastUpdated
 
+    private val _loadingStatus = MutableLiveData<LoadingStatus>()
+    val loadingStatus: LiveData<LoadingStatus>
+        get() = _loadingStatus
 
     /**
      * LiveData container that maps the token to token state
@@ -73,6 +76,8 @@ class DiningDetailViewModel(private val facilityId: String, val facilityName: St
     fun getDiningDetail() {
         Log.i(TAG, "Fetching dining list")
         viewModelScope.launch {
+            _loadingStatus.value = LoadingStatus.IN_PROGRESS
+
             try {
                 val facilityInfo = async { Api.retrofitService.getFacilityInfo(facilityId)[0] }
                 val howDense = async { Api.retrofitService.getHowDense(facilityId)[0] }
@@ -106,9 +111,10 @@ class DiningDetailViewModel(private val facilityId: String, val facilityName: St
                 }
 
                 _lastUpdated.value = DateTime.NOW
-
+                _loadingStatus.value = LoadingStatus.SUCCESS
             } catch (e: Exception) {
                 Log.w(TAG, "getDiningDetail: Failure ${e.message}")
+                _loadingStatus.value = LoadingStatus.ERROR
             }
         }
     }

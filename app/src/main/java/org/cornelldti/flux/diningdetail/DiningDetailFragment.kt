@@ -19,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.cornelldti.flux.R
+import org.cornelldti.flux.data.LoadingStatus
 import org.cornelldti.flux.databinding.DiningDetailFragmentBinding
 import org.cornelldti.flux.network.AuthTokenState
 import org.cornelldti.flux.util.DateTime
@@ -38,7 +39,7 @@ class DiningDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         viewModelFactory =
             DiningDetailFragmentArgs.fromBundle(requireArguments()).let {
                 DiningDetailViewModelFactory(
@@ -138,6 +139,21 @@ class DiningDetailFragment : Fragment() {
         setupDayChips()
 
         setupMenus()
+
+        /**
+         * Observe loading status and show indeterminate progress bar if in progress
+         */
+        viewModel.loadingStatus.observe(viewLifecycleOwner, { loadingStatus ->
+            val progressBar = binding.diningDetailProgress
+            val refreshButton = binding.diningDetailAppbar.menu.getItem(0)
+            if (loadingStatus == LoadingStatus.IN_PROGRESS) {
+                progressBar.visibility = View.VISIBLE
+                refreshButton.isEnabled = false
+            } else {
+                progressBar.visibility = View.GONE
+                refreshButton.isEnabled = true
+            }
+        })
     }
 
     /**
