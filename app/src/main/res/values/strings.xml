@@ -52,4 +52,9 @@
     <string name="sort_crowd">Crowdedness</string>
     <string name="sort_location">Location</string>
 
+    <!-- Dining list splash screen -->
+    <string name="flux_logo">Flux logo</string>
+    <string name="loading_failure">Error. Please check your network connection.</string>
+    <string name="retry">Retry</string>
+
 </resources>

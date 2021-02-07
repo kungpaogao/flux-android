@@ -75,6 +75,7 @@ class DiningListFragment : Fragment() {
                         "List is up to date.",
                         Snackbar.LENGTH_SHORT
                     ).show()
+                    binding.splashScreen.visibility = View.GONE
                     binding.diningListRefresh.isRefreshing = false
                 }
                 LoadingStatus.ERROR -> {
