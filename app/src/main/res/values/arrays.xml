@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="progress_colors">
+        <item>@color/flux_green</item>
+        <item>@color/flux_yellow</item>
+        <item>@color/flux_orange</item>
+        <item>@color/flux_red</item>
+    </array>
+</resources>
