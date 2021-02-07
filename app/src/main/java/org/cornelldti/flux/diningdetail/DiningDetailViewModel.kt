@@ -30,6 +30,10 @@ class DiningDetailViewModel(private val facilityId: String, val facilityName: St
     private var menuFilter: String = DateTime.TODAY
 
     private val _availability = MutableLiveData<Pair<Int, Int>>()
+
+    /**
+     * Pair of resource IDs for (string, color) corresponding to facility's availability
+     */
     val availability: LiveData<Pair<Int, Int>>
         get() = _availability
 
